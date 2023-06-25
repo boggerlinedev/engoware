@@ -1057,7 +1057,7 @@ do
     --   local old = {}
 
    
-    local kbv = {}
+    local kbv = 0
     local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
        local Velocity = {}; Velocity = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
@@ -1080,20 +1080,7 @@ KnockbackTable["kbUpwardStrength"] = 100
 
 
 
-       
-   kbv = Velocity.CreateSlider({
-    Name = "value",
-    Min = 0,
-    Max = 100,
-    Default = 20,
-    Round = 1,
-    Function = function(value) 
-        if Velocity.Enabled then 
-            Velocity.Toggle()
-            Velocity.Toggle()
-        end
-    end
-})
+ 
 
 
    end
