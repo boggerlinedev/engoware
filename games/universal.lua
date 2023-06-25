@@ -1077,8 +1077,10 @@ KnockbackTable["kbUpwardStrength"] = 100
                end
            end
        })
-   end
 
+
+
+       
    kbv = Velocity.CreateSlider({
     Name = "value",
     Min = 0,
@@ -1092,7 +1094,10 @@ KnockbackTable["kbUpwardStrength"] = 100
         end
     end
 })
-end
+
+
+   end
+
    
 
 
