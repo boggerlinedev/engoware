@@ -947,3 +947,106 @@ local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.
         end
     })
 end
+
+
+
+
+do 
+    --   local old = {}
+    _G.yes = false
+       local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Scaffold",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    _G.yes = true
+    
+    
+    local lplr = game.Players.LocalPlayer
+    local BlockEngine = require(lplr.PlayerScripts.TS.lib["block-engine"]["client-block-engine"]).ClientBlockEngine
+    local BlockEngineClientEvents = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client["block-engine-client-events"]).BlockEngineClientEvents
+    local BlockController = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine
+    local BlockControllertw = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client.placement["block-placer"]).BlockPlacer
+    local cam = game.Workspace.Camera
+    local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
+    
+    
+    
+    
+        local oldpos = Vector3.zero
+            local oldpos2 = Vector3.zero
+    
+            local function getScaffold(vec, diagonaltoggle)
+                local realvec = vec3(math.floor((vec.X / 3) + 0.5) * 3, math.floor((vec.Y / 3) + 0.5) * 3, math.floor((vec.Z / 3) + 0.5) * 3) 
+                local newpos = (oldpos - realvec)
+                local returedpos = realvec
+                if yesz == true then
+                    local angle = math.deg(math.atan2(-entity.character.Humanoid.MoveDirection.X, -entity.character.Humanoid.MoveDirection.Z))
+                    local goingdiagonal = (angle >= 130 and angle <= 150) or (angle <= -35 and angle >= -50) or (angle >= 35 and angle <= 50) or (angle <= -130 and angle >= -150)
+                    if goingdiagonal and ((newpos.X == 0 and newpos.Z ~= 0) or (newpos.X ~= 0 and newpos.Z == 0)) and diagonaltoggle then
+                        return oldpos
+                    end
+                end
+                return realvec
+            end
+    
+            local function getwool()
+                local block = nil
+                local blocks = {}
+                local prefer = math.random(1,2)
+                local choosen = "wool_green"
+                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("InventoryFolder") then
+                    for i,v in pairs(game.Players.LocalPlayer.Character.InventoryFolder.Value:GetChildren()) do
+                        if string.find(v.Name,"wool") then
+                            block = v
+                        end
+                    end
+                    if block then
+                        return block.Name,block:GetAttribute("Amount")
+                    end
+                end
+            end
+    
+            local blocktable = BlockControllertw.new(BlockEngine, getwool())
+            local animplaying = false
+    
+    
+            function placeblocks(newpos)
+                local placeblocktype = getwool()
+                blocktable.blockType = placeblocktype
+                task.spawn(function()
+                    scaffoldanim:Play()
+                    task.wait(.2)
+                    stop:Play()
+                    task.wait(.2)
+                end)
+                if BlockController:isAllowedPlacement(lplr, placeblocktype, Vector3.new(math.round(newpos.X / 3 + .5), math.round(newpos.Y / 3), math.round(newpos.Z / 3))) then
+                    blocktable:placeBlock(Vector3.new(math.round(newpos.X / 3), math.round(newpos.Y / 3), math.round(newpos.Z / 3)))
+                end
+            end
+    
+            local UserInputService = game:GetService("UserInputService")
+            function Scaffold_Main()
+                local spaceHeld = UserInputService:IsKeyDown(Enum.KeyCode.Space)
+                local Player = game.Players.LocalPlayer
+                local HRP = Player.Character.HumanoidRootPart
+                local raydown = true
+                if spaceHeld then
+                    game.Players.LocalPlayer.Character.PrimaryPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.PrimaryPart.Velocity.X,35,game.Players.LocalPlayer.Character.PrimaryPart.Velocity.Z)
+                end
+                placeblocks(game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,0,-1) - Vector3.new(0,5,0))
+            end
+            repeat
+                task.wait()
+                task.spawn(function()
+                    Scaffold_Main()
+                end)
+            until _G.yes == false 
+   
+               else
+                _G.yes = false
+               end
+           end
+       })
+   end
