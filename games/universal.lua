@@ -902,13 +902,47 @@ end
 
 do 
  --   local old = {}
+ _G.Module = false
     local Phase = {}; Phase = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
-        Name = "test",
+        Name = "ChestStealer",
         Function = function(callback) 
             if callback then 
-                print("ture")
+                print("true")
+        
+local lplr = game.Players.LocalPlayer
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
+
+
+
+    _G.Module = true
+    repeat
+        task.wait(0.1)
+        if lplr then
+            for i,v in pairs(game:GetService("CollectionService"):GetTagged("chest")) do
+                if (lplr.Character.HumanoidRootPart.Position - v.Position).Magnitude < 18 and v:FindFirstChild("ChestFolderValue") then
+                    local chest = v:FindFirstChild("ChestFolderValue")
+                    chest = chest and chest.Value or nil
+                    local chestitems = chest and chest:GetChildren() or {}
+                    if chestitems  then
+                        Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(chest)
+                        for i3, v3 in pairs(chestitems) do
+                            if v3:IsA("Accessory") then
+                                spawn(function()
+                                    pcall(function()
+                                        Client:GetNamespace("Inventory"):Get("ChestGetItem"):CallServer(v.ChestFolderValue.Value, v3)
+                                    end)
+                                end)
+                            end
+                        end
+                        Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(nil)
+                    end
+                end
+            end
+        end
+    until  _G.Module == false
             else
-              print("false")
+                _G.Module = false
             end
         end
     })
