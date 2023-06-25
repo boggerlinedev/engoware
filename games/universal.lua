@@ -1057,7 +1057,7 @@ do
     --   local old = {}
 
    
-    local kbv = 100
+    local kbv = {}
     local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
        local Velocity = {}; Velocity = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
