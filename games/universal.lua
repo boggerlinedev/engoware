@@ -1082,8 +1082,8 @@ do
         Function = function(callback) 
             if callback then 
               
-KnockbackTable["kbDirectionStrength"] = 0
-KnockbackTable["kbUpwardStrength"] = 0
+KnockbackTable["kbDirectionStrength"] = vel
+KnockbackTable["kbUpwardStrength"] = vel
             else
                
 KnockbackTable["kbDirectionStrength"] = 100
