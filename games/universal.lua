@@ -128,73 +128,6 @@ do
     })
 end
 
-                do 
-    local Connections = {}
-    local HighJumpMode = {}
-    local HighJumpValue = {}
-    local HighJump = {}; HighJump = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-        Name = "Test2",
-        Function = function(callback) 
-            if callback then 
-                if HighJumpMode.Value == 'toggle' then 
-                    if entity.isAlive then 
-                        local Velocity = entity.character.HumanoidRootPart.Velocity
-                        entity.character.HumanoidRootPart .Velocity = Vector3.new(Velocity.X, Velocity.Y + HighJumpValue.Value, Velocity.Z)
-                        HighJump.Toggle()
-                    end
-                elseif HighJumpMode.Value == 'normal' then
-                    local function highjumpfunc(_, new) 
-                        if new == Enum.HumanoidStateType.Jumping then 
-                            local Velocity = entity.character.HumanoidRootPart.Velocity
-                            entity.character.HumanoidRootPart.Velocity = Vector3.new(Velocity.X, Velocity.Y + HighJumpValue.Value, Velocity.Z)
-                        end
-                    end
-
-                    if entity.isAlive then 
-                        Connections[#Connections + 1] = entity.character.Humanoid.StateChanged:Connect(highjumpfunc)
-                    end
-
-                    Connections[#Connections + 1] = lplr.CharacterAdded:Connect(function(char) 
-                        if not entity.isAlive then 
-                            repeat task.wait() until entity.isAlive
-                        end
-
-                        char.Humanoid.StateChanged:Connect(highjumpfunc)
-                    end)
-                end
-            else
-                for _, Connection in pairs(Connections) do 
-                    Connection:Disconnect()
-                end
-                Connections = {}
-            end
-        end
-    })
-    HighJumpMode = HighJump.CreateDropdown({
-        Name = "mode",
-        List = {"toggle", "normal"},
-        Default = "toggle",
-        Function = function(value) 
-            if HighJump.Enabled then 
-                HighJump.Toggle()
-            end
-        end
-    })
-    HighJumpValue = HighJump.CreateSlider({
-        Name = "value",
-        Min = 0,
-        Max = 100,
-        Default = 20,
-        Round = 1,
-        Function = function(value) 
-            if HighJump.Enabled then 
-                HighJump.Toggle()
-                HighJump.Toggle()
-            end
-        end
-    })
-end
-
 do 
     local Fly = {}
     local FlyMode = {}
@@ -957,6 +890,25 @@ do
                     end
                 end
                 old = {}
+            end
+        end
+    })
+end
+
+
+
+
+
+
+do 
+ --   local old = {}
+    local Phase = {}; Phase = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
+        Name = "test",
+        Function = function(callback) 
+            if callback then 
+                print("ture")
+            else
+              print("false")
             end
         end
     })
