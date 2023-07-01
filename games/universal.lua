@@ -1234,13 +1234,12 @@ do
    
     
   
-    _G.tt = false
+ 
         local ka = {}; ka = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
             Name = "Kilaura",
             Function = function(callback) 
                 if callback then 
-                    _G.tt = true
-               
+                    local killaurarange = 22
                     local InventoryUtil = require(game:GetService("ReplicatedStorage").TS.inventory["inventory-util"]).InventoryUtil
                     local itemtablefunc = require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta
                     local itemstuff = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta, 1)
@@ -1278,7 +1277,7 @@ do
                     
                     
                     repeat
-                    task.wait(0.1)
+                    task.wait()
                     local playertohit
                     for i,v in pairs(game.Players:GetChildren()) do
                     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
@@ -1307,9 +1306,8 @@ do
                                     end
                     until not callback
 
-
                 else
-                    _G.tt = false
+                 
                 end
             end
         })
