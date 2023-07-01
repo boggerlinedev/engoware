@@ -1281,7 +1281,7 @@ do
                     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                                     end
                                     end
-                    until    _G.tt == false
+                    until not callback
 
 
                 else
@@ -1294,7 +1294,7 @@ do
             Name = "value",
             Min = 0,
             Max = 30,
-            Default = 23,
+            Default = 22,
             Round = 1,
             Function = function(value) 
                 if ka.Enabled then 
