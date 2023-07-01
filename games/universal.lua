@@ -1293,8 +1293,8 @@ do
         killaurarange = ka.CreateSlider({
             Name = "value",
             Min = 0,
-            Max = 100,
-            Default = 20,
+            Max = 30,
+            Default = 23,
             Round = 1,
             Function = function(value) 
                 if ka.Enabled then 
