@@ -1236,7 +1236,7 @@ do
   
     _G.tt = false
         local ka = {}; ka = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
-            Name = "KilAura",
+            Name = "Kilaura",
             Function = function(callback) 
                 if callback then 
                     _G.tt = true
