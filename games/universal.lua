@@ -1310,21 +1310,21 @@ do
 do 
    
    
-
+    local repstorage = game:GetService("ReplicatedStorage")
 local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 local Client = require(repstorage.TS.remotes).default.Client
 
-    local Enabled
+ 
     local fall = {}; fall = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
         Name = "No fall damage",
         Function = function(callback) 
-            Enabled = callback
-            if Enabled then 
+          
+            if callback then 
   
 	repeat
         task.wait(0.5)
         Client:Get("GroundHit"):SendToServer()
-    until  not Enabled
+    until  not callback
             else
     
             end
