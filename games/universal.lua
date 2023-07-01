@@ -1184,7 +1184,7 @@ function nuker()
     end
 end
 _G.t = false
-    local bn = {}; bn = GuiLibrary.Objects.utilitiesWindow..API.CreateOptionsButton({
+    local bn = {}; bn =  GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
         Name = "Bed Banger",
         Function = function(callback) 
             if callback then 
