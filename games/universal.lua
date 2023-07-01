@@ -1314,19 +1314,7 @@ do
             end
         })
       
-        killaurarange = ka.CreateSlider({
-            Name = "value",
-            Min = 0,
-            Max = 30,
-            Default = 22,
-            Round = 1,
-            Function = function(value) 
-                if ka.Enabled then 
-                    ka.Toggle()
-                    ka.Toggle()
-                end
-            end
-        })
+     
       
     end
 
