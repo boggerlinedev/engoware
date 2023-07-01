@@ -1235,7 +1235,7 @@ do
     
     local killaurarange = {}
     _G.tt = false
-        local ka = {}; ka = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
+        local ka = {}; ka = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
             Name = "KilAura",
             Function = function(callback) 
                 if callback then 
