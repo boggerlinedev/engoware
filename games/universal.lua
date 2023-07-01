@@ -1211,7 +1211,7 @@ do
     
     local killaurarange = 22
     _G.tt = false
-        local bn = {}; bn = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
+        local ka = {}; ka = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
             Name = "KilAura",
             Function = function(callback) 
                 if callback then 
@@ -1254,7 +1254,7 @@ do
                     
                     
                     repeat
-                    task.wait()
+                    task.wait(0.1)
                     local playertohit
                     for i,v in pairs(game.Players:GetChildren()) do
                     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
