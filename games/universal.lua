@@ -1107,6 +1107,30 @@ KnockbackTable["kbUpwardStrength"] = 100
     })
 end
 
+  
+do 
+   
+    local repstorage = game:GetService("ReplicatedStorage")
+    local Client = require(repstorage.TS.remotes).default.Client
+    local FallB = false
+    local fall = {}; fall = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+        Name = "Nofall",
+        Function = function(callback) 
+            if callback then 
+                FallB = true
+	repeat
+        task.wait(0.5)
+        Client:Get("GroundHit"):SendToServer()
+    until  FallB == false
+            else
+                FallB = true
+            end
+        end
+    })
+  
+   
+end
+
 
    
 do 
@@ -1307,32 +1331,3 @@ do
     end
 
      
-do 
-   
-   
-    local repstorage = game:GetService("ReplicatedStorage")
-local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
-local Client = require(repstorage.TS.remotes).default.Client
-
- 
-    local fall = {}; fall = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-        Name = "No fall damage",
-        Function = function(callback) 
-          
-            if callback then 
-  
-	repeat
-        task.wait(0.5)
-        Client:Get("GroundHit"):SendToServer()
-    until  not callback
-            else
-    
-            end
-        end
-    })
-  
-    
-end
-
-    
-    
