@@ -1209,7 +1209,7 @@ do
    
    
     
-    local killaurarange = {}
+    local killaurarange = 22
     _G.tt = false
         local ka = {}; ka = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
             Name = "KilAura",
@@ -1281,7 +1281,7 @@ do
                     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                                     end
                                     end
-                    until not callback
+                    until    _G.tt == false
 
 
                 else
@@ -1290,19 +1290,6 @@ do
             end
         })
       
-        killaurarange = ka.CreateSlider({
-            Name = "value",
-            Min = 0,
-            Max = 30,
-            Default = 22,
-            Round = 1,
-            Function = function(value) 
-                if ka.Enabled then 
-                    ka.Toggle()
-                    ka.Toggle()
-                end
-            end
-        })
       
     end
     
