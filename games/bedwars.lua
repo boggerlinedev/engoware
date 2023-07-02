@@ -259,7 +259,7 @@ do
    
  
     local au = {}; au = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
-        Name = "Aura",
+        Name = "KillAura",
         Function = function(callback) 
             if callback then 
    print("dffddf")
