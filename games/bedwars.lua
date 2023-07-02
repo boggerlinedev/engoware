@@ -14,6 +14,127 @@ local shalib = loadstring(funcs:require("lib/sha.lua"))()
 
 
 
+do 
+    local AddSpeed = 0
+    local LinearVelocity, BodyVelocity
+    local SpeedValue, SpeedOptions, SpeedMode = {}, {}, {}
+    local Speed = {}; Speed = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+        Name = "Speed",
+        Function = function(callback) 
+            if callback then
+
+                funcs:bindToHeartbeat("SpeedBackgroundTasks", function(dt) 
+                    if not entity.isAlive then 
+                        return
+                    end
+
+                    if SpeedOptions.Values.bhop.Enabled then 
+                        local State = entity.character.Humanoid:GetState()
+                        local MoveDirection = entity.character.Humanoid.MoveDirection
+                        if State == Enum.HumanoidStateType.Running and MoveDirection ~= Vector3.zero then 
+                            entity.character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                        end
+                    end
+
+                    if SpeedOptions.Values.pulse.Enabled then 
+                        if AddSpeed > (SpeedValue.Value * 1.5) then
+                            AddSpeed = -(SpeedValue.Value * 1.5)
+                        else
+                            AddSpeed = AddSpeed + 1
+                        end
+                    end
+                end)
+
+                funcs:bindToHeartbeat("Speed", function(dt) 
+                    if not entity.isAlive then 
+                        return
+                    end
+
+                    local Speed = SpeedValue.Value + AddSpeed
+                    local Humanoid = entity.character.Humanoid
+                    local RootPart = entity.character.HumanoidRootPart
+                    local MoveDirection = Humanoid.MoveDirection
+                    local Velocity = RootPart.Velocity
+                    local X, Z = MoveDirection.X * Speed, MoveDirection.Z * Speed
+
+                    if SpeedMode.Value == 'velocity' then 
+                        RootPart.Velocity = Vector3.new(X, Velocity.Y, Z)
+                    elseif SpeedMode.Value == 'cframe' then
+                        local Factor = Speed - Humanoid.WalkSpeed
+                        local MoveDirection = (MoveDirection * Factor) * dt
+                        local NewCFrame = RootPart.CFrame + Vector3.new(MoveDirection.X, 0, MoveDirection.Z)
+
+                        RootPart.CFrame =  NewCFrame
+                    elseif SpeedMode.Value == 'linearvelocity' then
+                        LinearVelocity = entity.character.HumanoidRootPart:FindFirstChildOfClass("LinearVelocity") or Instance.new("LinearVelocity", entity.character.HumanoidRootPart)
+                        LinearVelocity.VelocityConstraintMode = Enum.VelocityConstraintMode.Line
+                        LinearVelocity.Attachment0 = entity.character.HumanoidRootPart:FindFirstChildOfClass("Attachment")
+                        LinearVelocity.MaxForce = 9e9
+                        LinearVelocity.LineDirection = MoveDirection
+                        LinearVelocity.LineVelocity = (MoveDirection.X ~= 0 and MoveDirection.Z) and Speed or 0
+                    elseif SpeedMode.Value == 'assemblylinearvelocity' then
+                        RootPart.AssemblyLinearVelocity = Vector3.new(X, Velocity.Y, Z)
+                    elseif SpeedMode.Value == 'bodyvelocity' then
+                        BodyVelocity = entity.character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity") or Instance.new("BodyVelocity", entity.character.HumanoidRootPart)
+                        BodyVelocity.Velocity = Vector3.new(X, 0, Z)
+                        BodyVelocity.MaxForce = Vector3.new(9e9, 0, 9e9)
+                    end
+                end)
+
+            else
+                AddSpeed = 0
+                funcs:unbindFromHeartbeat("SpeedBackgroundTasks")
+                funcs:unbindFromHeartbeat("Speed")
+                if LinearVelocity then 
+                    LinearVelocity:Destroy()
+                    LinearVelocity = nil
+                end
+                if BodyVelocity then 
+                    BodyVelocity:Destroy()
+                    BodyVelocity = nil
+                end
+            end
+        end
+    })
+    SpeedMode = Speed.CreateDropdown({
+        Name = "mode",
+        List = {"cframe", "velocity", "linearvelocity", "assemblylinearvelocity", "bodyvelocity"},
+        Default = "cframe",
+        Function = function(value) 
+            if Speed.Enabled then 
+                Speed.Toggle()
+                Speed.Toggle()
+            end
+        end
+    })
+    SpeedOptions = Speed.CreateMultiDropdown({
+        Name = "options",
+        List = {"bhop", "pulse"},
+        --Default = {""},
+        Function = function(value) 
+            if Speed.Enabled then 
+                Speed.Toggle()
+                Speed.Toggle()
+            end
+        end
+    })
+    SpeedValue = Speed.CreateSlider({
+        Name = "value",
+        Min = 0,
+        Max = 100,
+        Default = 20,
+        Round = 1,
+        Function = function(value) 
+            if Speed.Enabled then 
+                Speed.Toggle()
+                Speed.Toggle()
+            end
+        end
+    })
+end
+
+
+
 
 
 
