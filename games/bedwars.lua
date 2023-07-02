@@ -262,9 +262,9 @@ do
         Name = "Aura",
         Function = function(callback) 
             if callback then 
-   prrint("dffddf")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
             else
- print("hghghgf")
+ print("Unknown error occur")
             end
         end
     })
