@@ -254,7 +254,7 @@ end
 
 
    
---[[do 
+do 
    
    
  
@@ -262,14 +262,14 @@ end
         Name = "Aura",
         Function = function(callback) 
             if callback then 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/boggerlinedev/engoware/main/Aura", true))()
+   print("dffddf")
             else
- print("Unknown error occur")
+ print("hghghgf")
             end
         end
     })
   
-end]]
+end
 
 
 
