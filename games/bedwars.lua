@@ -1209,7 +1209,7 @@ function nuker()
 end
 _G.t = false
     local bn = {}; bn = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
-        Name = "Bed Banger",
+        Name = "Bed Banging Aura",
         Function = function(callback) 
             if callback then 
                 _G.t = true
