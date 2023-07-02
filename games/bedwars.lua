@@ -258,26 +258,6 @@ end
 
 
 
-do 
-
-    local repstorage = game:GetService("ReplicatedStorage")
-    local Client = require(repstorage.TS.remotes).default.Client
-
-    local NoFall = {}; NoFall = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
-        Name = "nofall",
-        Function = function(callback) 
-            if callback then 
-               repeat
-        task.wait(0.5)
-        Client:Get("GroundHit"):SendToServer()
-    until  not NoFall.Enabled
-
-            end
-        end,
-    })
-end
-
-
 local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
    
