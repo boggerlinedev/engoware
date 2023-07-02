@@ -559,7 +559,7 @@ do
     
     
     
-    
+    --
     function nuker()
         local beds = getbedsxd()
         for _,bed in pairs(beds) do
