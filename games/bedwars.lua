@@ -254,7 +254,7 @@ end
 
 
    
-do 
+--[[do 
    
    
  
@@ -269,7 +269,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/boggerlinedev/engowar
         end
     })
   
-end
+end]]
 
 
 
