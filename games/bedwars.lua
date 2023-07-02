@@ -249,6 +249,19 @@ do
 end
 
 
+do
+    local Killaura = {}; Killaura = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
+        Name = "killaura",
+        Function = function(callback) 
+            if callback then 
+               print("eys")
+            else
+               print("no")
+            end
+        end
+    })
+
+end
 
 
 
