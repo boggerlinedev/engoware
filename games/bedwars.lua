@@ -136,6 +136,126 @@ end
 
 
 
+do 
+    local Fly = {}
+    local FlyMode = {}
+    local FlyValue = {}
+    local FlyVertical = {}
+    local FlyVerticalValue = {}
+    local LinearVelocity, AlignPosition
+    Fly = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+        Name = "fly",
+        Function = function(callback) 
+            if callback then 
+                funcs:bindToHeartbeat("Fly", function(dt) 
+                    if not entity.isAlive then 
+                        return
+                    end
+
+                    local Speed = FlyValue.Value
+                    local Humanoid = entity.character.Humanoid
+                    local RootPart = entity.character.HumanoidRootPart
+                    local MoveDirection = Humanoid.MoveDirection
+                    local Velocity = RootPart.Velocity
+                    local X, Z = MoveDirection.X * Speed, MoveDirection.Z * Speed
+                    local FlyVDirection = 0
+                    if FlyVertical.Enabled then
+                        if UIS:IsKeyDown(Enum.KeyCode.Space) then 
+                            FlyVDirection = FlyVerticalValue.Value
+                        elseif UIS:IsKeyDown(Enum.KeyCode.LeftShift) or UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+                            FlyVDirection = -FlyVerticalValue.Value
+                        end
+                    end
+
+                    if FlyMode.Value == 'velocity' then 
+                        RootPart.Velocity = Vector3.new(X, FlyVDirection, Z)
+                    elseif FlyMode.Value == 'cframe' then
+                        local Factor = Speed - Humanoid.WalkSpeed
+                        local MoveDirection = (MoveDirection * Factor) * dt
+                        local NewCFrame = RootPart.CFrame + Vector3.new(MoveDirection.X, FlyVDirection * dt, MoveDirection.Z)
+
+                        RootPart.Velocity = Vector3.new(Velocity.X, 0, Velocity.Y)
+                        RootPart.CFrame =  NewCFrame
+                    elseif FlyMode.Value == 'linearvelocity' then
+                        LinearVelocity = entity.character.HumanoidRootPart:FindFirstChildOfClass("LinearVelocity") or Instance.new("LinearVelocity", entity.character.HumanoidRootPart)
+                        LinearVelocity.Attachment0 = entity.character.HumanoidRootPart:FindFirstChildOfClass("Attachment")
+                        LinearVelocity.MaxForce = 9e9
+                        LinearVelocity.VectorVelocity = Vector3.new(X, FlyVDirection, Z)
+                    elseif FlyMode.Value == 'assemblylinearvelocity' then
+                        RootPart.AssemblyLinearVelocity = Vector3.new(X, FlyVDirection, Z)
+                    end
+                end)
+            else
+                funcs:unbindFromHeartbeat("Fly")
+                if LinearVelocity then 
+                    LinearVelocity:Destroy()
+                    LinearVelocity = nil
+                end
+                if AlignPosition then
+                    AlignPosition:Destroy()
+                    AlignPosition = nil
+                end
+
+            end
+        end,
+    })
+    FlyMode = Fly.CreateDropdown({
+        Name = "mode",
+        List = {"cframe", "velocity", "linearvelocity", "assemblylinearvelocity"},
+        Default = "cframe",
+        Function = function(value) 
+            if Fly.Enabled then 
+                Fly.Toggle()
+                Fly.Toggle()
+            end
+        end
+    })
+    FlyValue = Fly.CreateSlider({
+        Name = "value",
+        Min = 0,
+        Max = 100,
+        Default = 20,
+        Round = 1,
+        Function = function(value) 
+            if Fly.Enabled then 
+                Fly.Toggle()
+                Fly.Toggle()
+            end
+        end
+    })
+    FlyVertical = Fly.CreateToggle({
+        Name = "vertical",
+        Default = true,
+        Function = function(value) 
+            if Fly.Enabled then 
+                Fly.Toggle()
+                Fly.Toggle()
+            end
+        end
+    })
+    FlyVerticalValue = Fly.CreateSlider({
+        Name = "vertical value",
+        Min = 0,
+        Max = 100,
+        Default = 20,
+        Round = 1,
+        Function = function(value) 
+            if Fly.Enabled then 
+                Fly.Toggle()
+                Fly.Toggle()
+            end
+        end
+    })
+end
+
+
+
+
+
+
+
+
+
 
 
 do 
