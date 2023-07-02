@@ -16,23 +16,6 @@ local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
 
---Aura comp
-
-local InventoryUtil = require(game:GetService("ReplicatedStorage").TS.inventory["inventory-util"]).InventoryUtil
-local itemtablefunc = require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta
-local itemstuff = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta, 1)
-local itemtable = debug.getupvalue(itemtablefunc, 1)
-local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta"])
-
-
-
-
-
-
-
-
-
-
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -608,30 +591,6 @@ do
       
       
     end
-
-
-
-    
-do 
-  
-   
-    
-    
-
-    
-    local ki = {}; ki = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
-        Name = "KillAura",
-        Function = function(callback) 
-            if callback then 
-               print("dfs")
-            else
-                print("vdf")
-
-            end
-        end,
-    })
-end
-
     
 
 
