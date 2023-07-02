@@ -3,6 +3,9 @@ local request = (syn and syn.request) or request or http_request or (http and ht
 local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport
 local setthreadidentityfunc = syn and syn.set_thread_identity or set_thread_identity or setidentity or setthreadidentity
 local getthreadidentityfunc = syn and syn.get_thread_identity or get_thread_identity or getidentity or getthreadidentity
+
+local entity, GuiLibrary, funcs = engoware.entity, engoware.GuiLibrary, engoware.funcs
+
 local UIS = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local lplr = Players.LocalPlayer
