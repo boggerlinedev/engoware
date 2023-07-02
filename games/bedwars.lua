@@ -638,8 +638,9 @@ do
                     end
                     
                     
-                    repeat
-                    task.wait()
+                 while wait() do
+                    
+
                     local playertohit
                     for i,v in pairs(game.Players:GetChildren()) do
                     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
@@ -666,7 +667,7 @@ do
                     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                                     end
                                     end
-                    until nil
+                                end
    
                 else
      
