@@ -262,7 +262,7 @@ do
         Name = "Aura",
         Function = function(callback) 
             if callback then 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/boggerlinedev/engoware/main/Aura", true))()
             else
  print("Unknown error occur")
             end
