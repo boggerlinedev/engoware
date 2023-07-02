@@ -16,6 +16,23 @@ local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
 
+--Aura comp
+
+local InventoryUtil = require(game:GetService("ReplicatedStorage").TS.inventory["inventory-util"]).InventoryUtil
+local itemtablefunc = require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta
+local itemstuff = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.item["item-meta"]).getItemMeta, 1)
+local itemtable = debug.getupvalue(itemtablefunc, 1)
+local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta"])
+
+
+
+
+
+
+
+
+
+
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -591,6 +608,84 @@ do
       
       
     end
+
+
+
+    
+do 
+  
+    
+    function getinv(plr)
+        local plr = plr or lplr
+        local thingy, thingytwo = pcall(function() return InventoryUtil.getInventory(plr) end)
+        return (thingy and thingytwo or {
+            items = {},
+            armor = {},
+            hand = nil
+        })
+    end
+    
+    function getsword()
+        local sd
+        local higherdamage
+        local swordslots
+        local swords = getinv().items
+        for i, v in pairs(swords) do
+            if v.itemType:lower():find("sword") or v.itemType:lower():find("blade") then
+                if higherdamage == nil or itemstuff[v.itemType].sword.damage > higherdamage then
+                    sd = v
+                    higherdamage = itemstuff[v.itemType].sword.damage
+                    swordslots = i
+                end
+            end
+        end
+        return sd, swordslots
+    end
+    
+    
+
+    local killaurarange = 22
+    local ki = {}; ki = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
+        Name = "KillAura",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+                    
+repeat
+    task.wait()
+    local playertohit
+    for i,v in pairs(game.Players:GetChildren()) do
+    if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
+    playertohit = v
+    local sword = getsword()
+    local args = {
+        [1] = {
+            ["chargedAttack"] = {
+                ["chargeRatio"] = 0
+            },
+            ["entityInstance"] = playertohit.Character,
+            ["validate"] = {
+            ["targetPosition"] = {
+                ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            },
+            ["selfPosition"] = {
+                ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            }
+        },
+            ["weapon"] = sword.tool
+        }
+    }
+                            
+    game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
+                    end
+                    end
+    until not ki.Enabled
+                end)()
+            end
+        end,
+    })
+end
+
     
 
 
