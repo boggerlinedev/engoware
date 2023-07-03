@@ -338,6 +338,46 @@ end
 
 
 
+local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
+
+   
+do 
+   
+   
+    local vel = {}
+    local velocity = {}; velocity = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+        Name = "Velocity",
+        Function = function(callback) 
+            if callback then 
+              
+KnockbackTable["kbDirectionStrength"] = vel
+KnockbackTable["kbUpwardStrength"] = vel
+            else
+               
+KnockbackTable["kbDirectionStrength"] = 100
+KnockbackTable["kbUpwardStrength"] = 100
+            end
+        end
+    })
+  
+    vel = velocity.CreateSlider({
+        Name = "value",
+        Min = 0,
+        Max = 100,
+        Default = 20,
+        Round = 1,
+        Function = function(value) 
+            if velocity.Enabled then 
+                velocity.Toggle()
+                velocity.Toggle()
+            end
+        end
+    })
+end
+
+
+
+
 --[[do 
     local NoRender = {}; NoRender = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
         Name = "norender",
