@@ -258,8 +258,10 @@ local itemstuff = debug.getupvalue(require(game:GetService("ReplicatedStorage").
 local itemtable = debug.getupvalue(itemtablefunc, 1)
 local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta"])
  
-do 
 
+
+do 
+    local killaurarange = 22
     
 function getinv(plr)
     local plr = plr or lplr
