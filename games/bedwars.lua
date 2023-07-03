@@ -294,36 +294,36 @@ end
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
-                    repeat game:GetService("RunService").Stepped:Wait()
-
-                        local playertohit
-for i,v in pairs(game.Players:GetChildren()) do
-if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
-playertohit = v
-local sword = getsword()
-local args = {
-    [1] = {
-        ["chargedAttack"] = {
-            ["chargeRatio"] = 0
+                 
+repeat
+    task.wait()
+    local playertohit
+    for i,v in pairs(game.Players:GetChildren()) do
+    if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
+    playertohit = v
+    local sword = getsword()
+    local args = {
+        [1] = {
+            ["chargedAttack"] = {
+                ["chargeRatio"] = 0
+            },
+            ["entityInstance"] = playertohit.Character,
+            ["validate"] = {
+            ["targetPosition"] = {
+                ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            },
+            ["selfPosition"] = {
+                ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            }
         },
-        ["entityInstance"] = playertohit.Character,
-        ["validate"] = {
-        ["targetPosition"] = {
-            ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-        },
-        ["selfPosition"] = {
-            ["value"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+            ["weapon"] = sword.tool
         }
-    },
-        ["weapon"] = sword.tool
     }
-}
-                        
-game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
-                end
-                end
-                       
-                    until nil
+                            
+    game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
+                    end
+                    end
+    until nil
                 end)()
                
             else
