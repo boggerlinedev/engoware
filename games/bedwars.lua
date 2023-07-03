@@ -258,6 +258,7 @@ local itemstuff = debug.getupvalue(require(game:GetService("ReplicatedStorage").
 local itemtable = debug.getupvalue(itemtablefunc, 1)
 local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta"])
  
+local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
 
 do 
@@ -338,42 +339,32 @@ end
 
 
 
-local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
-   
+
+
+
 do 
-   
-   
-    local vel = {}
-    local velocity = {}; velocity = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-        Name = "Velocity",
+  
+
+ 
+    local vv = {}; vv = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
+        Name = "No KB",
         Function = function(callback) 
             if callback then 
-              
-KnockbackTable["kbDirectionStrength"] = vel
-KnockbackTable["kbUpwardStrength"] = vel
-            else
+                            
+KnockbackTable["kbDirectionStrength"] = 0
+KnockbackTable["kbUpwardStrength"] = 0
                
+            else
+                             
 KnockbackTable["kbDirectionStrength"] = 100
 KnockbackTable["kbUpwardStrength"] = 100
             end
         end
     })
-  
-    vel = velocity.CreateSlider({
-        Name = "value",
-        Min = 0,
-        Max = 100,
-        Default = 20,
-        Round = 1,
-        Function = function(value) 
-            if velocity.Enabled then 
-                velocity.Toggle()
-                velocity.Toggle()
-            end
-        end
-    })
+
 end
+
 
 
 
