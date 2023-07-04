@@ -263,7 +263,7 @@ local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStora
 
 do 
     local killaurarange = 22
-    
+    local en = false
 function getinv(plr)
     local plr = plr or lplr
     local thingy, thingytwo = pcall(function() return InventoryUtil.getInventory(plr) end)
@@ -296,6 +296,7 @@ end
         Name = "killaura",
         Function = function(callback) 
             if callback then 
+                en = true
                 coroutine.wrap(function() 
                  
 repeat
@@ -326,11 +327,12 @@ repeat
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                     end
                     end
-    until nil
+    until en == false
                 end)()
                
             else
                 print("no")
+                en = false
             end
         end
     })
