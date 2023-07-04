@@ -584,7 +584,7 @@ do
                 placeblocks(game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,0,-1) - Vector3.new(0,5,0))
             end
        local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-           Name = "Scaffold",
+           Name = "Scaffoldd",
            Function = function(callback) 
                if callback then 
                    print("true")
