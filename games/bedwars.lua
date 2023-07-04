@@ -260,7 +260,7 @@ local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta
  
 local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
-    local en = false
+  
 do 
     local killaurarange = 22
 
@@ -296,7 +296,7 @@ end
         Name = "killaura",
         Function = function(callback) 
             if callback then 
-                en = true
+             
                 coroutine.wrap(function() 
                  
 repeat
@@ -327,12 +327,11 @@ repeat
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                     end
                     end
-    until en == false
+    until nil
                 end)()
                
             else
-                print("no")
-                en = false
+print("no")
             end
         end
     })
