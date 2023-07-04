@@ -260,6 +260,7 @@ local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta
  
 local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
+local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
   
 do 
     local killaurarange = 22
@@ -464,6 +465,45 @@ end
   
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+do 
+    local NoFall = {}; NoFall = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
+        Name = "nofall",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+                    repeat 
+                       	Client:Get("GroundHit"):SendToServer()
+                        task.wait(5)
+                    until not NoFall.Enabled
+                end)()
+            end
+        end,
+    })
+end
 
 
 
