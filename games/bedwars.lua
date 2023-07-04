@@ -365,7 +365,104 @@ KnockbackTable["kbUpwardStrength"] = 100
 
 end
 
+
+                                            
+do 
+   
+   
+_G.t = false
+    local bn = {}; bn = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
+        Name = "Bed Banger",
+        Function = function(callback) 
+            if callback then 
+                _G.t = true
+
+
+                
+    
+function getblockfrommap(name)
+    for i, v in pairs(game.Workspace:GetChildren()) do
+        if v:FindFirstChild(name) then
+            return v
+        end
+    end
+end
+
+
+
+
+
+function getbedsxd()
+    local beds = {}
+    local blocks = game:GetService("Workspace")
+    for _,Block in pairs(blocks:GetChildren()) do
+        if Block.Name == "bed" and Block.Covers.BrickColor ~= game.Players.LocalPlayer.Team.TeamColor then
+            table.insert(beds,Block)
+        end
+    end
+    return beds
+end
+
+function getbedsblocks()
+    local blockstb = {}
+    local blocks = game:GetService("Workspace")
+    for i,v in pairs(blocks:GetChildren()) do
+        if v:IsA("MeshPart") then
+            table.insert(blockstb,v)
+        end
+    end
+    return blockstb
+end
+
+function blocks(bed)
+    local aboveblocks = 0
+    local Blocks = getbedsblocks()
+    for _,Block in pairs(Blocks) do
+        if Block.Position.X == bed.X and Block.Position.Z == bed.Z and Block.Name ~= "bed" and (Block.Position.Y - bed.Y) <= 9 and Block.Position.Y > bed.Y then
+            aboveblocks = aboveblocks + 1
+        end
+    end
+    return aboveblocks
+end
+
+
+
+
+
+
+
+function nuker()
+    local beds = getbedsxd()
+    for _,bed in pairs(beds) do
+        local bedmagnitude = (bed.Position - game.Players.LocalPlayer.Character.PrimaryPart.Position).Magnitude
+        if bedmagnitude < 27 then
+            local upnum = blocks(bed.Position)
+            local x = math.round(bed.Position.X/3)
+            local y = math.round(bed.Position.Y/3) + upnum
+            local z = math.round(bed.Position.Z/3)
+ game:GetService("ReplicatedStorage").rbxts_include.node_modules["@easy-games"]["block-engine"].node_modules["@rbxts"].net.out._NetManaged.DamageBlock:InvokeServer({
+                ["blockRef"] = {
+                    ["blockPosition"] = Vector3.new(x,y,z)
+                },
+                ["hitPosition"] = Vector3.new(x,y,z),
+                ["hitNormal"] = Vector3.new(x,y,z),
+            })
+        end
+    end
+end
+                while _G.t == true do
+                    nuker()
+                    wait()
+                    end
+            else
+                _G.t = false
+            end
+        end
+    })
   
+  
+end
+
 
 
 
