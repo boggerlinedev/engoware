@@ -371,15 +371,6 @@ end
                                             
 do 
    
-   
-_G.t = false
-    local bn = {}; bn = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
-        Name = "Bed Banger",
-        Function = function(callback) 
-            if callback then 
-                _G.t = true
-
-
                 
     
 function getblockfrommap(name)
@@ -452,12 +443,21 @@ function nuker()
         end
     end
 end
-                while _G.t == true do
-                    nuker()
-                    wait()
-                    end
-            else
-                _G.t = false
+   
+
+    local bn = {}; bn = GuiLibrary.Objects.exploitsWindow.API.CreateOptionsButton({
+        Name = "Bed Banger",
+        Function = function(callback) 
+            if callback then 
+          
+
+ coroutine.wrap(function() 
+                    repeat 
+                       nuker()
+                        task.wait(5)
+                    until not bn.Enabled
+                end)()
+          
             end
         end
     })
