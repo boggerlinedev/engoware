@@ -507,15 +507,7 @@ end
 
 do 
     --   local old = {}
-    _G.yes = false
-       local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-           Name = "Scaffold",
-           Function = function(callback) 
-               if callback then 
-                   print("true")
-                   
-    _G.yes = true
-    
+   
     
     local lplr = game.Players.LocalPlayer
     local BlockEngine = require(lplr.PlayerScripts.TS.lib["block-engine"]["client-block-engine"]).ClientBlockEngine
@@ -591,15 +583,26 @@ do
                 end
                 placeblocks(game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,0,-1) - Vector3.new(0,5,0))
             end
-            repeat
-                task.wait()
+       local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Scaffold",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    
+    
+           
+            coroutine.wrap(function() 
+                repeat 
+                    task.wait()
                 task.spawn(function()
                     Scaffold_Main()
                 end)
-            until _G.yes == false 
+                      
+                until not Sca.Enabled
+            end)()
    
-               else
-                _G.yes = false
+               
                end
            end
        })
