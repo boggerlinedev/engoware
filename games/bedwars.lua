@@ -260,10 +260,10 @@ local itemmeta = require(game:GetService("ReplicatedStorage").TS.item["item-meta
  
 local KnockbackTable = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1)
 
-
+    local en = false
 do 
     local killaurarange = 22
-    local en = false
+
 function getinv(plr)
     local plr = plr or lplr
     local thingy, thingytwo = pcall(function() return InventoryUtil.getInventory(plr) end)
