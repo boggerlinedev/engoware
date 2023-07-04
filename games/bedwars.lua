@@ -370,71 +370,89 @@ end
 
  
  do 
-    local NukerBlocks = {table.unpack(game:GetService("CollectionService"):GetTagged("bed"))}
-    game:GetService("CollectionService"):GetInstanceAddedSignal("bed"):Connect(function(bed) 
-        NukerBlocks[#NukerBlocks+1] = bed
-    end)
+
+                
+    
+function getblockfrommap(name)
+    for i, v in pairs(game.Workspace:GetChildren()) do
+        if v:FindFirstChild(name) then
+            return v
+        end
+    end
+end
+
+
+
+
+
+function getbedsxd()
+    local beds = {}
+    local blocks = game:GetService("Workspace")
+    for _,Block in pairs(blocks:GetChildren()) do
+        if Block.Name == "bed" and Block.Covers.BrickColor ~= game.Players.LocalPlayer.Team.TeamColor then
+            table.insert(beds,Block)
+        end
+    end
+    return beds
+end
+
+function getbedsblocks()
+    local blockstb = {}
+    local blocks = game:GetService("Workspace")
+    for i,v in pairs(blocks:GetChildren()) do
+        if v:IsA("MeshPart") then
+            table.insert(blockstb,v)
+        end
+    end
+    return blockstb
+end
+
+function blocks(bed)
+    local aboveblocks = 0
+    local Blocks = getbedsblocks()
+    for _,Block in pairs(Blocks) do
+        if Block.Position.X == bed.X and Block.Position.Z == bed.Z and Block.Name ~= "bed" and (Block.Position.Y - bed.Y) <= 9 and Block.Position.Y > bed.Y then
+            aboveblocks = aboveblocks + 1
+        end
+    end
+    return aboveblocks
+end
+
+
+
+
+
+
+
+function nuker()
+    local beds = getbedsxd()
+    for _,bed in pairs(beds) do
+        local bedmagnitude = (bed.Position - game.Players.LocalPlayer.Character.PrimaryPart.Position).Magnitude
+        if bedmagnitude < 27 then
+            local upnum = blocks(bed.Position)
+            local x = math.round(bed.Position.X/3)
+            local y = math.round(bed.Position.Y/3) + upnum
+            local z = math.round(bed.Position.Z/3)
+ game:GetService("ReplicatedStorage").rbxts_include.node_modules["@easy-games"]["block-engine"].node_modules["@rbxts"].net.out._NetManaged.DamageBlock:InvokeServer({
+                ["blockRef"] = {
+                    ["blockPosition"] = Vector3.new(x,y,z)
+                },
+                ["hitPosition"] = Vector3.new(x,y,z),
+                ["hitNormal"] = Vector3.new(x,y,z),
+            })
+        end
+    end
+end
 
     local NukerRange = {}
     local Nuker = {}; Nuker = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
-        Name = "nuker",
+        Name = "Bed Nuker",
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
-                    repeat task.wait(1/3)
-
-                        if not entity.isAlive then
-                            continue
-                        end
-
-                        for i,v in next, NukerBlocks do 
-                            if (v.Position - entity.character.HumanoidRootPart.Position).Magnitude <= NukerRange.Value then 
-                                if v:GetAttribute("Team" .. lplr:GetAttribute("Team") .. "NoBreak") then
-                                    continue
-                                end
-
-                                if not modules.BlockEngine:isBlockBreakable({blockPosition = modules.BlockEngine:getBlockPosition(v.Position)}, lplr) then
-                                    continue
-                                end
-
-                                if not v or not v.Parent then 
-                                    continue
-                                end
-                                
-                                local targetBlock, targetNormal
-
-                                if v.Name == 'bed' then 
-                                    local otherSide = funcs:getOtherSideBed(v)
-                                    local normal1, power1 = funcs:getBestNormal(v.Position)
-                                    local normal2, power2 = Enum.NormalId.Bottom, 9999e99999
-                                    if otherSide then
-                                        normal2, power2 = funcs:getBestNormal(otherSide.Position)
-                                    end
-
-                                    if power1 < power2 then 
-                                        targetBlock = v
-                                        targetNormal = normal1
-                                    else
-                                        targetBlock = otherSide
-                                        targetNormal = normal2
-                                    end
-                                end
-
-                                targetBlock, targetNormal = funcs:getBacktrackedBlock((targetBlock or v).Position, targetNormal)
-
-                                if not targetBlock then
-                                    targetBlock = v 
-                                end
-
-                                if not targetNormal then
-                                    targetNormal = funcs:getBestNormal(v.Position)
-                                end
-
-                                funcs:breakBlock(targetBlock, targetNormal)
-                            end
-                        end
-
-                    until not Nuker.Enabled
+                repeat task.wait(1/3)
+                nuker()
+                  until not Nuker.Enabled
                 end)()
             end
         end
