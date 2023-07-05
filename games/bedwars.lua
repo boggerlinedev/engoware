@@ -14,15 +14,8 @@ local whitelist = {};
 local shalib = loadstring(funcs:require("lib/sha.lua"))()
 local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
---
+
 ------
-local bedwarss = {
-
-
-    ["KnockbackTable"] = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1),
-  ["sprintTable"] = KnitClient.Controllers.SprintController,
-    }
-
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -352,6 +345,127 @@ end
 
 
 
+do 
+  
+
+ 
+    local vv = {}; vv = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
+        Name = "No KB",
+        Function = function(callback) 
+            if callback then 
+                            
+KnockbackTable["kbDirectionStrength"] = 0
+KnockbackTable["kbUpwardStrength"] = 0
+               
+            else
+                             
+KnockbackTable["kbDirectionStrength"] = 100
+KnockbackTable["kbUpwardStrength"] = 100
+            end
+        end
+    })
+
+end
+
+
+ 
+ do 
+
+                
+    
+function getblockfrommap(name)
+    for i, v in pairs(game.Workspace:GetChildren()) do
+        if v:FindFirstChild(name) then
+            return v
+        end
+    end
+end
+
+
+
+
+
+function getbedsxd()
+    local beds = {}
+    local blocks = game:GetService("Workspace")
+    for _,Block in pairs(blocks:GetChildren()) do
+        if Block.Name == "bed" and Block.Covers.BrickColor ~= game.Players.LocalPlayer.Team.TeamColor then
+            table.insert(beds,Block)
+        end
+    end
+    return beds
+end
+
+function getbedsblocks()
+    local blockstb = {}
+    local blocks = game:GetService("Workspace")
+    for i,v in pairs(blocks:GetChildren()) do
+        if v:IsA("MeshPart") then
+            table.insert(blockstb,v)
+        end
+    end
+    return blockstb
+end
+
+function blocks(bed)
+    local aboveblocks = 0
+    local Blocks = getbedsblocks()
+    for _,Block in pairs(Blocks) do
+        if Block.Position.X == bed.X and Block.Position.Z == bed.Z and Block.Name ~= "bed" and (Block.Position.Y - bed.Y) <= 9 and Block.Position.Y > bed.Y then
+            aboveblocks = aboveblocks + 1
+        end
+    end
+    return aboveblocks
+end
+
+
+
+
+
+
+
+function nuker()
+    local beds = getbedsxd()
+    for _,bed in pairs(beds) do
+        local bedmagnitude = (bed.Position - game.Players.LocalPlayer.Character.PrimaryPart.Position).Magnitude
+        if bedmagnitude < 27 then
+            local upnum = blocks(bed.Position)
+            local x = math.round(bed.Position.X/3)
+            local y = math.round(bed.Position.Y/3) + upnum
+            local z = math.round(bed.Position.Z/3)
+ game:GetService("ReplicatedStorage").rbxts_include.node_modules["@easy-games"]["block-engine"].node_modules["@rbxts"].net.out._NetManaged.DamageBlock:InvokeServer({
+                ["blockRef"] = {
+                    ["blockPosition"] = Vector3.new(x,y,z)
+                },
+                ["hitPosition"] = Vector3.new(x,y,z),
+                ["hitNormal"] = Vector3.new(x,y,z),
+            })
+        end
+    end
+end
+
+    local NukerRange = {}
+    local Nuker = {}; Nuker = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
+        Name = "Bed Nuker",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+                repeat task.wait(1/3)
+                nuker()
+                  until not Nuker.Enabled
+                end)()
+            end
+        end
+    })
+    NukerRange = Nuker.CreateSlider({
+        Name = "range",
+        Default = 29,
+        Min = 1,
+        Max = 29,
+        Round = 1,
+        Function = function() end
+    })
+end
 
 
 
@@ -367,6 +481,135 @@ end
 
 
 
+
+
+
+
+
+
+
+do 
+    local NoFall = {}; NoFall = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
+        Name = "nofall",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+                    repeat 
+                       	Client:Get("GroundHit"):SendToServer()
+                        task.wait(5)
+                    until not NoFall.Enabled
+                end)()
+            end
+        end,
+    })
+end
+
+
+do 
+    --   local old = {}
+   
+    
+    local lplr = game.Players.LocalPlayer
+    local BlockEngine = require(lplr.PlayerScripts.TS.lib["block-engine"]["client-block-engine"]).ClientBlockEngine
+    local BlockEngineClientEvents = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client["block-engine-client-events"]).BlockEngineClientEvents
+    local BlockController = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out).BlockEngine
+    local BlockControllertw = require(game:GetService("ReplicatedStorage")["rbxts_include"]["node_modules"]["@easy-games"]["block-engine"].out.client.placement["block-placer"]).BlockPlacer
+    local cam = game.Workspace.Camera
+    local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
+    
+    
+    
+    
+        local oldpos = Vector3.zero
+            local oldpos2 = Vector3.zero
+    
+            local function getScaffold(vec, diagonaltoggle)
+                local realvec = vec3(math.floor((vec.X / 3) + 0.5) * 3, math.floor((vec.Y / 3) + 0.5) * 3, math.floor((vec.Z / 3) + 0.5) * 3) 
+                local newpos = (oldpos - realvec)
+                local returedpos = realvec
+                if yesz == true then
+                    local angle = math.deg(math.atan2(-entity.character.Humanoid.MoveDirection.X, -entity.character.Humanoid.MoveDirection.Z))
+                    local goingdiagonal = (angle >= 130 and angle <= 150) or (angle <= -35 and angle >= -50) or (angle >= 35 and angle <= 50) or (angle <= -130 and angle >= -150)
+                    if goingdiagonal and ((newpos.X == 0 and newpos.Z ~= 0) or (newpos.X ~= 0 and newpos.Z == 0)) and diagonaltoggle then
+                        return oldpos
+                    end
+                end
+                return realvec
+            end
+    
+            local function getwool()
+                local block = nil
+                local blocks = {}
+                local prefer = math.random(1,2)
+                local choosen = "wool_green"
+                if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("InventoryFolder") then
+                    for i,v in pairs(game.Players.LocalPlayer.Character.InventoryFolder.Value:GetChildren()) do
+                        if string.find(v.Name,"wool") then
+                            block = v
+                        end
+                    end
+                    if block then
+                        return block.Name,block:GetAttribute("Amount")
+                    end
+                end
+            end
+    
+            local blocktable = BlockControllertw.new(BlockEngine, getwool())
+            local animplaying = false
+    
+    
+            function placeblocks(newpos)
+                local placeblocktype = getwool()
+                blocktable.blockType = placeblocktype
+                task.spawn(function()
+                    scaffoldanim:Play()
+                    task.wait(.2)
+                    stop:Play()
+                    task.wait(.2)
+                end)
+                if BlockController:isAllowedPlacement(lplr, placeblocktype, Vector3.new(math.round(newpos.X / 3 + .5), math.round(newpos.Y / 3), math.round(newpos.Z / 3))) then
+                    blocktable:placeBlock(Vector3.new(math.round(newpos.X / 3), math.round(newpos.Y / 3), math.round(newpos.Z / 3)))
+                end
+            end
+    
+            local UserInputService = game:GetService("UserInputService")
+            function Scaffold_Main()
+                local spaceHeld = UserInputService:IsKeyDown(Enum.KeyCode.Space)
+                local Player = game.Players.LocalPlayer
+                local HRP = Player.Character.HumanoidRootPart
+                local raydown = true
+                if spaceHeld then
+                    game.Players.LocalPlayer.Character.PrimaryPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.PrimaryPart.Velocity.X,35,game.Players.LocalPlayer.Character.PrimaryPart.Velocity.Z)
+                end
+                placeblocks(game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,0,-1) - Vector3.new(0,5,0))
+            end
+       local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Scaffoldd",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    
+    
+           
+            coroutine.wrap(function() 
+                repeat 
+                    task.wait()
+                task.spawn(function()
+                    Scaffold_Main()
+                end)
+                      
+                until not Sca.Enabled
+            end)()
+   
+               
+               end
+           end
+       })
+   end
+
+
+ 
 
 
 
