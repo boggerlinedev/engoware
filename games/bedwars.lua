@@ -14,7 +14,7 @@ local whitelist = {};
 local shalib = loadstring(funcs:require("lib/sha.lua"))()
 local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
-
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 ------
 do 
     local AddSpeed = 0
@@ -610,6 +610,44 @@ do
 
 
  
+
+
+
+
+      
+do 
+    --   local old = {}
+   
+local bedwarss = {
+
+
+    ["KnockbackTable"] = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1),
+  ["sprintTable"] = KnitClient.Controllers.SprintController,
+    }
+    
+       local sss = {}; sss = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Auto Sprint",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    
+    
+           
+            coroutine.wrap(function() 
+                repeat 
+                    task.wait()
+                   	bedwarss["sprintTable"]:startSprinting()
+                      
+                until not sss.Enabled
+            end)()
+   
+               
+               end
+           end
+       })
+   end
+
 
 
 
