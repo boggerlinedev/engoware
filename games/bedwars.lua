@@ -619,36 +619,6 @@ do
 
 
 
-   
-do 
-    --   local old = {}
-   
- 
-       local ss = {}; ss = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-           Name = "Auto Sprint",
-           Function = function(callback) 
-               if callback then 
-                   print("true")
-                   
-    
-    
-           
-            coroutine.wrap(function() 
-                
-repeat 
-   task.wait()
-	bedwarss["sprintTable"]:startSprinting()
-until  not ss.Enabled
-            end)()
-   
-               
-               end
-           end
-       })
-   end
-
-
- 
 
 
 
