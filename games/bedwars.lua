@@ -14,7 +14,7 @@ local whitelist = {};
 local shalib = loadstring(funcs:require("lib/sha.lua"))()
 local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
-
+--
 ------
 local bedwarss = {
 
