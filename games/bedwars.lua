@@ -16,7 +16,7 @@ local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
-------
+local TweenService = game:GetService("TweenService")
 
 
 
@@ -943,3 +943,60 @@ do
         end
     })
 end
+
+
+
+
+     
+do 
+    --   local old = {}
+    local hasTeleported = false 
+    function findNearestBed()
+           local nearestBed = nil
+           local minDistance = math.huge
+           
+           for _,v in pairs(game.Workspace:GetDescendants()) do
+               if v.Name:lower() == "bed" and v:FindFirstChild("Covers") and v:FindFirstChild("Covers").BrickColor ~= lplr.Team.TeamColor then
+                   local distance = (v.Position - lplr.Character.HumanoidRootPart.Position).magnitude
+                   if distance < minDistance then
+                       nearestBed = v
+                       minDistance = distance
+                   end
+               end
+           end
+           
+           return nearestBed
+       end
+       function tweenToNearestBed()
+           local nearestBed = findNearestBed()
+           
+           if nearestBed and not hasTeleported then
+               hasTeleported = true
+   
+               local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0)
+               
+               local tween = TweenService:Create(lplr.Character.HumanoidRootPart, TweenInfo.new(0.97), {CFrame = nearestBed.CFrame + Vector3.new(0, 2, 0)})
+               tween:Play()
+           end
+       end
+    
+       local bd = {}; bd = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Tp_nearest beds",
+           Function = function(callback) 
+               if callback then 
+                   print("Tping...syn")
+                   lplr.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
+                lplr.CharacterAdded:Connect(function()
+                    wait(0.3) 
+                    tweenToNearestBed()
+               end)
+               
+    
+    
+               
+               end
+           end
+       })
+   end
+
+
