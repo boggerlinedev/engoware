@@ -15,7 +15,11 @@ local shalib = loadstring(funcs:require("lib/sha.lua"))()
 local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
 ------
+
+
+
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -793,3 +797,51 @@ end
         end,
     })
 end]]
+
+     
+do 
+    --   local old = {}
+  
+    
+       local cs = {}; cs = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Chest Stealer",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    
+    
+           
+            coroutine.wrap(function() 
+                   repeat
+        task.wait(0.1)
+        if lplr then
+            for i,v in pairs(game:GetService("CollectionService"):GetTagged("chest")) do
+                if (lplr.Character.HumanoidRootPart.Position - v.Position).Magnitude < 18 and v:FindFirstChild("ChestFolderValue") then
+                    local chest = v:FindFirstChild("ChestFolderValue")
+                    chest = chest and chest.Value or nil
+                    local chestitems = chest and chest:GetChildren() or {}
+                    if chestitems  then
+                        Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(chest)
+                        for i3, v3 in pairs(chestitems) do
+                            if v3:IsA("Accessory") then
+                                spawn(function()
+                                    pcall(function()
+                                        Client:GetNamespace("Inventory"):Get("ChestGetItem"):CallServer(v.ChestFolderValue.Value, v3)
+                                    end)
+                                end)
+                            end
+                        end
+                        Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(nil)
+                    end
+                end
+            end
+        end
+    until  not cs.Enabled
+            end)()
+   
+               
+               end
+           end
+       })
+   end
