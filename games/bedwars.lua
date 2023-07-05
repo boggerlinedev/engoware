@@ -16,6 +16,13 @@ local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 
 ------
+local bedwarss = {
+
+
+    ["KnockbackTable"] = debug.getupvalue(require(game:GetService("ReplicatedStorage").TS.damage["knockback-util"]).KnockbackUtil.calculateKnockbackVelocity, 1),
+  ["sprintTable"] = KnitClient.Controllers.SprintController,
+    }
+
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -584,7 +591,7 @@ do
                 placeblocks(game.Players.LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,0,-1) - Vector3.new(0,5,0))
             end
        local Sca = {}; Sca = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
-           Name = "Scaffoldd",
+           Name = "Scaffold",
            Function = function(callback) 
                if callback then 
                    print("true")
@@ -600,6 +607,38 @@ do
                 end)
                       
                 until not Sca.Enabled
+            end)()
+   
+               
+               end
+           end
+       })
+   end
+
+   
+
+
+
+   
+do 
+    --   local old = {}
+   
+ 
+       local ss = {}; ss = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+           Name = "Auto Sprint",
+           Function = function(callback) 
+               if callback then 
+                   print("true")
+                   
+    
+    
+           
+            coroutine.wrap(function() 
+                
+repeat 
+   task.wait()
+	bedwarss["sprintTable"]:startSprinting()
+until  not ss.Enabled
             end)()
    
                
