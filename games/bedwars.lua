@@ -328,7 +328,7 @@ repeat
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                     end
                     end
-    until nil
+    until not Killaura.Enabled
                 end)()
                
             else
@@ -648,6 +648,136 @@ local bedwarss = {
        })
    end
 
+
+
+   
+do 
+    local TracersColorMode, TracersPosition, TracersThickness, TracersFrom, OnlyBehind, TracerTransparency = {}, {}, {}, {}, {}, {}
+    local tracers = {}
+    local drawings = {}
+    local done = {}
+    tracers = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "tracers",
+        Function = function(callback) 
+            if callback then 
+                funcs:bindToRenderStepped("Tracers", function(dt) 
+                    for _, v in next, drawings do 
+                        v.Visible = false
+                    end
+                    for _, v in next, entity.entityList do 
+
+                        if not funcs:isAlive(v.Player, true) then 
+                            continue 
+                        end
+
+                        local Position, Visible, Part
+                        if TracersPosition.Value == 'root' then
+                            Part = v.RootPart
+                        elseif TracersPosition.Value == 'head' then
+                            Part = v.Head
+                        end
+
+                        Position, Visible = workspace.CurrentCamera:WorldToViewportPoint(Part.Position)
+                        if OnlyBehind.Enabled and Visible then
+                            continue
+                        end
+                        if not Visible and TracersFrom.Value ~= "bottom" and not (0 < Position.Z) then 
+                            local ObjectSpace = workspace.CurrentCamera.CFrame:PointToObjectSpace(Part.Position)
+                            local AngledCalculation = (math.atan2(ObjectSpace.Y, ObjectSpace.X) + math.pi)
+                            local CalculatedAngle = CFrame.Angles(0, math.rad(89.9), 0):VectorToWorldSpace(-Vector3.zAxis)
+                            local Angle = CFrame.Angles(0, 0, AngledCalculation):VectorToWorldSpace(CalculatedAngle)
+                            local WorldSpacePoint = workspace.CurrentCamera.CFrame:PointToWorldSpace(Angle)
+                            Position = workspace.CurrentCamera:WorldToViewportPoint(WorldSpacePoint)
+                            Visible = true
+                        else
+                            if TracersFrom.Value == "bottom" and not Visible then 
+                                continue
+                            end
+                        end
+
+                        local Tracer
+                        if done[v.Player.Name] then
+                            Tracer = drawings[v.Player.Name]
+                        else
+                            done[v.Player.Name] = true
+                            Tracer = Drawing.new("Line")
+                            drawings[v.Player.Name] = Tracer
+                        end
+                        
+                        if not Tracer then 
+                            continue 
+                        end
+
+                        local ViewportSize = workspace.CurrentCamera.ViewportSize
+                        local From, To = nil, Vector2.new(Position.X, Position.Y)
+                        if TracersFrom.Value == 'middle' then
+                            From = Vector2.new(ViewportSize.X / 2, ViewportSize.Y / 2)
+                        elseif TracersFrom.Value == 'bottom' then
+                            From = Vector2.new(ViewportSize.X / 2, ViewportSize.Y)
+                        elseif TracersFrom.Value == 'top' then
+                            From = Vector2.new(ViewportSize.X / 2, 0)
+                        elseif TracersFrom.Value == 'mouse' then
+                            From = UIS:GetMouseLocation()
+                        end
+
+                        Tracer.Color = funcs:getColorFromEntity(v, TracersColorMode.Value == 'team', TracersColorMode.Value == 'color theme')
+                        Tracer.Thickness = TracersThickness.Value
+                        Tracer.Visible = true
+                        Tracer.Transparency = TracerTransparency.Value
+                        Tracer.From = From
+                        Tracer.To = To
+                    end
+                end)
+            else
+                funcs:unbindFromRenderStepped("Tracers")
+                for i,v in next, drawings do 
+                    v:Remove()
+                    drawings[i] = nil
+                end
+                done = {}
+            end
+        end,
+    })
+    TracersFrom = tracers.CreateDropdown({
+        Name = "from",
+        Default = 'middle',
+        List = {"middle", "bottom", "top", "mouse"},
+        Function = function() end
+    })
+    TracersPosition = tracers.CreateDropdown({
+        Name = "position",
+        Default = 'head',
+        List = {"head", "root"},
+        Function = function() end
+    })
+    TracersColorMode = tracers.CreateDropdown({
+        Name = "color mode",
+        Default = 'team',
+        List = {"none", "team", "color theme"},
+        Function = function() end
+    })
+    TracersThickness = tracers.CreateSlider({
+        Name = "thickness",
+        Min = 0.25,
+        Max = 10,
+        Default = 0.5,
+        Round = 1,
+        Function = function() end
+    })
+    TracerTransparency = tracers.CreateSlider({
+        Name = "transparency",
+        Min = 0,
+        Max = 1,
+        Default = 0.5,
+        Round = 2,
+        Function = function() end
+    })
+    OnlyBehind = tracers.CreateToggle({
+        Name = "only behind",
+        Default = false,
+        Function = function() end
+    })
+end
 
 
 
