@@ -803,7 +803,7 @@ do
     --   local old = {}
   
     
-       local cs = {}; cs = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+       local cs = {}; cs = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
            Name = "Chest Stealer",
            Function = function(callback) 
                if callback then 
@@ -845,3 +845,101 @@ do
            end
        })
    end
+
+
+
+   
+do
+    local OldFOV
+    local Connection, Connection2
+    local FOVValue, FOVMode = {}, {}
+    local FOV = {}; FOV = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "fovchanger",
+        Function = function(callback, wasKeyDown) 
+            if callback then 
+                OldFOV = OldFOV or workspace.CurrentCamera.FieldOfView
+                if FOVMode.Value == 'zoom' and not wasKeyDown then 
+                    FOV.Toggle()
+                    return
+                end
+                workspace.CurrentCamera.FieldOfView = FOVValue.Value
+                Connection = workspace.CurrentCamera:GetPropertyChangedSignal("FieldOfView"):Connect(function() 
+                    if workspace.CurrentCamera.FieldOfView ~= FOVValue.Value then 
+                        workspace.CurrentCamera.FieldOfView = FOVValue.Value
+                    end
+                end)
+                if FOVMode.Value == 'zoom' then
+                    Connection2 = game:GetService("UserInputService").InputEnded:Connect(function(input) 
+                        if input.KeyCode.Name == FOV.Bind then
+                            Connection2:Disconnect()
+                            Connection2 = nil
+                            FOV.Toggle()
+                        end
+                    end)
+                end
+            else
+                if Connection then 
+                    Connection:Disconnect()
+                    Connection = nil
+                end
+                workspace.CurrentCamera.FieldOfView = OldFOV
+            end
+        end
+    }) 
+    FOVMode = FOV.CreateDropdown({
+        Name = "mode",
+        Default = "set",
+        List = {"set", "zoom"},
+        Function = function() end
+    })
+    FOVValue = FOV.CreateSlider({
+        Name = "value",
+        Min = 10,
+        Max = 120,
+        Round = 0,
+        Default = 90,
+        Function = function(value) 
+            if FOV.Enabled then
+                workspace.CurrentCamera.FieldOfView = value
+            end
+        end
+    })
+end
+
+
+
+do 
+    local Worker = funcs:newWorker()
+
+    local Old = {}
+    local Override = {
+        GlobalShadows = false,
+        Brightness = 1.5,
+        --Ambient = Color3.fromRGB(255, 255, 255),
+        ClockTime = 12,   
+    }
+    local Fullbright={}; Fullbright = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "fullbright",
+        Function = function(callback) 
+            if callback then 
+                for i,v in next, Override do 
+                    if type(v)=='function' then v() continue end
+                    Old[i] = game:GetService("Lighting")[i]
+                    game:GetService("Lighting")[i] = v
+                    Worker:add(game:GetService("Lighting"):GetPropertyChangedSignal(i):Connect(function() 
+                        if game:GetService("Lighting")[i] ~= v then 
+                            game:GetService("Lighting")[i] = v
+                        end
+                    end))
+                end
+            else
+                Worker:clean()
+                for i,v in next, Old do 
+                    if typeof(v)=='Instance' then v:Destroy() continue end
+                    game:GetService("Lighting")[i] = v
+                    Old[i] = nil
+                end
+            end
+        end
+    })
+end
