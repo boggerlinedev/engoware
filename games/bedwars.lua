@@ -1039,7 +1039,7 @@ do
     }
     local DidAttack = false
     local AttackAnim = {["Enabled"] = true}
-    local CurrentAnim = {["Value"] = "Slow"}
+    local CurrentAnim = {["Value"] = "Zyla"}
 
     local an = {}; an = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
         Name = "Aura Animation",
