@@ -375,87 +375,67 @@ end
  
  do 
 
-                
-    
-function getblockfrommap(name)
-    for i, v in pairs(game.Workspace:GetChildren()) do
-        if v:FindFirstChild(name) then
-            return v
-        end
-    end
-end
+local BreakingMsg = false
+ local Distance = {["Value"] = 30}
 
+    local params = RaycastParams.new()
+    params.IgnoreWater = true
 
-
-
-
-function getbedsxd()
-    local beds = {}
-    local blocks = game:GetService("Workspace")
-    for _,Block in pairs(blocks:GetChildren()) do
-        if Block.Name == "bed" and Block.Covers.BrickColor ~= game.Players.LocalPlayer.Team.TeamColor then
-            table.insert(beds,Block)
-        end
-    end
-    return beds
-end
-
-function getbedsblocks()
-    local blockstb = {}
-    local blocks = game:GetService("Workspace")
-    for i,v in pairs(blocks:GetChildren()) do
-        if v:IsA("MeshPart") then
-            table.insert(blockstb,v)
-        end
-    end
-    return blockstb
-end
-
-function blocks(bed)
-    local aboveblocks = 0
-    local Blocks = getbedsblocks()
-    for _,Block in pairs(Blocks) do
-        if Block.Position.X == bed.X and Block.Position.Z == bed.Z and Block.Name ~= "bed" and (Block.Position.Y - bed.Y) <= 9 and Block.Position.Y > bed.Y then
-            aboveblocks = aboveblocks + 1
-        end
-    end
-    return aboveblocks
-end
-
-
-
-
-
-
-
-function nuker()
-    local beds = getbedsxd()
-    for _,bed in pairs(beds) do
-        local bedmagnitude = (bed.Position - game.Players.LocalPlayer.Character.PrimaryPart.Position).Magnitude
-        if bedmagnitude < 27 then
-            local upnum = blocks(bed.Position)
-            local x = math.round(bed.Position.X/3)
-            local y = math.round(bed.Position.Y/3) + upnum
-            local z = math.round(bed.Position.Z/3)
- game:GetService("ReplicatedStorage").rbxts_include.node_modules["@easy-games"]["block-engine"].node_modules["@rbxts"].net.out._NetManaged.DamageBlock:InvokeServer({
+    function NukerFunction(part)
+        local raycastResult = game:GetService("Workspace"):Raycast(part.Position + Vector3.new(0,24,0),Vector3.new(0,-27,0),params)
+        if raycastResult then
+            local targetblock = raycastResult.Instance
+            for i,v in pairs(targetblock:GetChildren()) do
+                if v:IsA("Texture") then
+                    v:Destroy()
+                end
+            end
+            targetblock.Color = Color3.fromRGB(255,65,65)
+            targetblock.Material = Enum.Material.Neon
+        game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@easy-games"):WaitForChild("block-engine"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DamageBlock"):InvokeServer({
                 ["blockRef"] = {
-                    ["blockPosition"] = Vector3.new(x,y,z)
+                    ["blockPosition"] = Vector3.new(math.round(targetblock.Position.X/3),math.round(targetblock.Position.Y/3),math.round(targetblock.Position.Z/3))
                 },
-                ["hitPosition"] = Vector3.new(x,y,z),
-                ["hitNormal"] = Vector3.new(x,y,z),
+                ["hitPosition"] = Vector3.new(math.round(targetblock.Position.X/3),math.round(targetblock.Position.Y/3),math.round(targetblock.Position.Z/3)),
+                ["hitNormal"] = Vector3.new(math.round(targetblock.Position.X/3),math.round(targetblock.Position.Y/3),math.round(targetblock.Position.Z/3))
             })
+            if BreakingMsg == false then
+                BreakingMsg = true
+               -- CreateNotification("Nuker","Breaking Bed..",3)
+                spawn(function()
+                    task.wait(3)
+                    BreakingMsg = false
+                end)
+            end
         end
     end
-end
+    
+function GetBeds()
+        local beds = {}
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+            if string.lower(v.Name) == "bed" and v:FindFirstChild("Covers") ~= nil and v:FindFirstChild("Covers").BrickColor ~= lplr.Team.TeamColor then
+                table.insert(beds,v)
+            end
+        end
+        return beds
+    end
+    local beds = GetBeds()
+    
 
     local NukerRange = {}
     local Nuker = {}; Nuker = GuiLibrary.Objects.utilitiesWindow.API.CreateOptionsButton({
-        Name = "Bed Nuker",
+        Name = "Bed Banger",
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
-                repeat task.wait(1/3)
-                nuker()
+                repeat task.wait()
+                for i,v in pairs(beds) do
+                     local mag = (v.Position - lplr.Character.PrimaryPart.Position).Magnitude
+                                if mag < Distance["Value"] then
+                                    NukerFunction(v)
+                                end
+
+            end
                   until not Nuker.Enabled
                 end)()
             end
