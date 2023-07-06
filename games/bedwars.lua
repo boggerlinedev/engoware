@@ -349,16 +349,7 @@ repeat
         DidAttack = true
         playertohit = v
 
-                                if AttackAnim["Enabled"] then
-                                    local anim = Instance.new("Animation")
-                                    anim.AnimationId = "rbxassetid://4947108314"
-                                    local loader = lplr.Character:FindFirstChild("Humanoid"):FindFirstChild("Animator")
-                                    loader:LoadAnimation(anim):Play()
-                                    for i,v in pairs(Anims[CurrentAnim["Value"]]) do
-                                        game:GetService("TweenService"):Create(cam.Viewmodel.RightHand.RightWrist,TweenInfo.new(v.Time),{C0 = origC0 * v.CFrame}):Play()
-                                        task.wait(v.Time-0.01)
-                                    end
-                                end
+                               
                          
     local sword = getsword()
 
@@ -382,7 +373,16 @@ repeat
                             
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
       
-    
+    if AttackAnim["Enabled"] then
+        local anim = Instance.new("Animation")
+        anim.AnimationId = "rbxassetid://4947108314"
+        local loader = lplr.Character:FindFirstChild("Humanoid"):FindFirstChild("Animator")
+        loader:LoadAnimation(anim):Play()
+        for i,v in pairs(Anims[CurrentAnim["Value"]]) do
+            game:GetService("TweenService"):Create(cam.Viewmodel.RightHand.RightWrist,TweenInfo.new(v.Time),{C0 = origC0 * v.CFrame}):Play()
+            task.wait(v.Time-0.01)
+        end
+    end
 else
     DidAttack = false
 
