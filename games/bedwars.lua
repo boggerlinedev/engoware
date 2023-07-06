@@ -327,6 +327,8 @@ function getsword()
     end
     return sd, swordslots
 end
+
+local DidAttack = false
 local AttackAnim = {["Enabled"] = true}
 local CurrentAnim = {["Value"] = "Zyla"}
  
@@ -344,7 +346,7 @@ repeat
     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
    
    
-   
+        DidAttack = true
         playertohit = v
 
                                 if AttackAnim["Enabled"] then
@@ -379,7 +381,17 @@ repeat
     }
                             
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
-                    end
+      
+    
+else
+    DidAttack = false
+
+end
+if not DidAttack then
+    for i,v2 in pairs(endanim) do
+        game:GetService("TweenService"):Create(cam.Viewmodel.RightHand.RightWrist,TweenInfo.new(v2.Time),{C0 = origC0 * v2.CFrame}):Play()
+    end
+end
                     end
     until not Killaura.Enabled
                 end)()
@@ -1047,4 +1059,3 @@ do
            end
        })
    end
-
