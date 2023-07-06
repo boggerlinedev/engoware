@@ -269,38 +269,6 @@ local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.
 do 
     local killaurarange = 22
 
-
-     local Anims = {
-        ["Slow"] = {
-            {CFrame = CFrame.new(0, 1, 0) * CFrame.Angles(math.rad(-90), math.rad(90), math.rad(90)),Time = 0.25},
-            {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.25}
-        },
-       ["Zyla"] = {
-            {CFrame = CFrame.new(0.3, -2, 0.5) * CFrame.Angles(-math.rad(190), math.rad(110), -math.rad(90)), Time = 0.3},
-            {CFrame = CFrame.new(0.3, -1.5, 1.5) * CFrame.Angles(math.rad(120), math.rad(140), math.rad(320)), Time = 0.1}
-        },
-        ["Self"] = {
-            {CFrame = CFrame.new(0, 1, 0) * CFrame.Angles(math.rad(-90), math.rad(90), math.rad(90)),Time = 0.25},
-            {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.25}
-        },
-        ["Butcher"] = {
-            {CFrame = CFrame.new(0, -1, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0)),Time = 0.3},
-            {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.3}
-        },
-        ["VerticalSpin"] = {
-			{CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-90), math.rad(8), math.rad(5)), Time = 0.3},
-			{CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(180), math.rad(3), math.rad(13)), Time = 0.3},
-			{CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(90), math.rad(-5), math.rad(8)), Time = 0.3},
-			{CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.3}
-		},
-    }
-		local endanim = {
-        {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.25}
-    }
-    local endanim = {
-        {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.25}
-    }
-
 function getinv(plr)
     local plr = plr or lplr
     local thingy, thingytwo = pcall(function() return InventoryUtil.getInventory(plr) end)
@@ -328,9 +296,6 @@ function getsword()
     return sd, swordslots
 end
 
-local DidAttack = false
-local AttackAnim = {["Enabled"] = true}
-local CurrentAnim = {["Value"] = "Zyla"}
  
     local Killaura = {}; Killaura = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
         Name = "killaura",
@@ -338,21 +303,14 @@ local CurrentAnim = {["Value"] = "Zyla"}
             if callback then 
              
                 coroutine.wrap(function() 
-                
+                 
 repeat
     task.wait()
     local playertohit
     for i,v in pairs(game.Players:GetChildren()) do
     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
-   
-   
-        DidAttack = true
-        playertohit = v
-
-                               
-                         
+    playertohit = v
     local sword = getsword()
-
     local args = {
         [1] = {
             ["chargedAttack"] = {
@@ -372,26 +330,7 @@ repeat
     }
                             
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
-      
-    if AttackAnim["Enabled"] then
-        local anim = Instance.new("Animation")
-        anim.AnimationId = "rbxassetid://4947108314"
-        local loader = lplr.Character:FindFirstChild("Humanoid"):FindFirstChild("Animator")
-        loader:LoadAnimation(anim):Play()
-        for i,v in pairs(Anims[CurrentAnim["Value"]]) do
-            game:GetService("TweenService"):Create(cam.Viewmodel.RightHand.RightWrist,TweenInfo.new(v.Time),{C0 = origC0 * v.CFrame}):Play()
-            task.wait(v.Time-0.01)
-        end
-    end
-else
-    DidAttack = false
-
-end
-if not DidAttack then
-    for i,v2 in pairs(endanim) do
-        game:GetService("TweenService"):Create(cam.Viewmodel.RightHand.RightWrist,TweenInfo.new(v2.Time),{C0 = origC0 * v2.CFrame}):Play()
-    end
-end
+                    end
                     end
     until not Killaura.Enabled
                 end)()
@@ -1059,3 +998,4 @@ do
            end
        })
    end
+
