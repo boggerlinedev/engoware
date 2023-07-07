@@ -296,14 +296,15 @@ function getsword()
     return sd, swordslots
 end
 
+local fuck = false
+
  
     local Killaura = {}; Killaura = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
         Name = "killaura",
         Function = function(callback) 
             if callback then 
-             
-                coroutine.wrap(function() 
-                 
+             if Killaura.Enabled then
+                coroutine.wrap(function()              
 repeat
     task.wait()
     local playertohit
@@ -311,6 +312,7 @@ repeat
     if v.TeamColor ~= game.Players.LocalPlayer.TeamColor and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") and (v.Character:FindFirstChild("HumanoidRootPart").Position - game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude < killaurarange then
     playertohit = v
     local sword = getsword()
+    fuck = true
     local args = {
         [1] = {
             ["chargedAttack"] = {
@@ -331,10 +333,12 @@ repeat
                             
     game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.SwordHit:FireServer(unpack(args))
                     end
+                    else
+                    fuck = false
                     end
     until not Killaura.Enabled
                 end)()
-               
+               end
             else
 print("no")
             end
