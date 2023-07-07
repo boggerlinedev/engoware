@@ -20,20 +20,6 @@ local TweenService = game:GetService("TweenService")
 
 
 
-getgenv().HUDColor = Color3.fromRGB(255,0,0)
-notification = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/boggerlinedev/GUI/main/Notification%20source.lua", true))()
-
-local function notify(title, duration)
-    notification(
-        {
-            Text = title,
-            Duration = duration
-        }
-    )
-end
-
-
-
 do 
     local AddSpeed = 0
     local LinearVelocity, BodyVelocity
@@ -100,7 +86,7 @@ do
                         BodyVelocity.MaxForce = Vector3.new(9e9, 0, 9e9)
                     end
                 end)
-						notify(Name .. callback,4)
+
             else
                 AddSpeed = 0
                 funcs:unbindFromHeartbeat("SpeedBackgroundTasks")
@@ -113,7 +99,6 @@ do
                     BodyVelocity:Destroy()
                     BodyVelocity = nil
                 end
-						notify(Name .. callback,4)
             end
         end
     })
