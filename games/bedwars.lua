@@ -1064,3 +1064,65 @@ print("no")
     })
 
 end
+
+
+
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+   bedwars = {
+    ["ViewmodelController"] = KnitClient.Controllers.ViewmodelController
+}
+
+  
+do 
+    
+
+
+	local nobobdepth = {Value = 8}
+	local nobobhorizontal = {Value = 8}
+	local rotationx = {Value = 0}
+	local rotationy = {Value = 0}
+	local rotationz = {Value = 0}
+    
+    local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "No Bobing",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+repeat wait(0.30)
+
+			lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(nobobdepth["Value"] / 10))
+					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (nobobhorizontal["Value"] / 10))
+					pcall(function()
+						for i,v in pairs(cam.Viewmodel.Humanoid.Animator:GetPlayingAnimationTracks()) do 
+							v:Stop()
+						end
+					end)
+					bedwars["ViewmodelController"]:playAnimation(11)
+					oldc1 = cam.Viewmodel.RightHand.RightWrist.C1
+					cam.Viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx["Value"]), math.rad(rotationy["Value"]), math.rad(rotationz["Value"]))
+                    until not bob.Enabled
+                end)()
+
+            end
+        end
+    })
+  
+    nobobdepth = bob.CreateSlider({
+        Name = "nobobdepth",
+        Min = 0,
+        Max = 100,
+        Default = 14,
+        Round = 1,
+        Function = function(value) 
+            if bob.Enabled then 
+                bob.Toggle()
+                bob.Toggle()
+            end
+        end
+    })
+end
+
+
+
+   
+   
