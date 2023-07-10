@@ -1088,7 +1088,7 @@ do
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
-repeat wait()
+repeat wait(2222222)
 
 			lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(nobobdepth["Value"] / 10))
 					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (nobobhorizontal["Value"] / 10))
