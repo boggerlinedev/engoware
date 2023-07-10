@@ -18,7 +18,6 @@ local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6
 local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
 local TweenService = game:GetService("TweenService")
 
-local gameCamera = workspace.CurrentCamera
 
 
 do 
@@ -1073,114 +1072,57 @@ local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6
     ["ViewmodelController"] = KnitClient.Controllers.ViewmodelController
 }
 
- 
-do
+  
+do 
+    
+
+
 	local nobobdepth = {Value = 8}
 	local nobobhorizontal = {Value = 8}
-	local nobobvertical = {Value = -2}
 	local rotationx = {Value = 0}
 	local rotationy = {Value = 0}
 	local rotationz = {Value = 0}
-	local oldc1
-	local oldfunc
-	local nobob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
-		Name = "No Bobing",
-		Function = function(callback) 
-			local viewmodel = gameCamera:FindFirstChild("Viewmodel")
-			if viewmodel then
-				if callback then
-					oldfunc = bedwars.ViewmodelController.playAnimation
-					bedwars.ViewmodelController.playAnimation = function(self, animid, details)
-						if animid == bedwars.AnimationType.FP_WALK then
-							return
+    
+    local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "No Bobing",
+        Function = function(callback) 
+            if callback then 
+                coroutine.wrap(function() 
+repeat wait()
+
+			lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(nobobdepth["Value"] / 10))
+					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (nobobhorizontal["Value"] / 10))
+					pcall(function()
+						for i,v in pairs(cam.Viewmodel.Humanoid.Animator:GetPlayingAnimationTracks()) do 
+							v:Stop()
 						end
-						return oldfunc(self, animid, details)
-					end
-					bedwars.ViewmodelController:setHeldItem(lplr.Character and lplr.Character:FindFirstChild("HandInvItem") and lplr.Character.HandInvItem.Value and lplr.Character.HandInvItem.Value:Clone())
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(nobobdepth.Value / 10))
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (nobobhorizontal.Value / 10))
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_VERTICAL_OFFSET", (nobobvertical.Value / 10))
-					oldc1 = viewmodel.RightHand.RightWrist.C1
-					viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
-				else
-					bedwars.ViewmodelController.playAnimation = oldfunc
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", 0)
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", 0)
-					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_VERTICAL_OFFSET", 0)
-					viewmodel.RightHand.RightWrist.C1 = oldc1
-				end
-			end
-		end
-	})
-	nobobdepth = nobob.CreateSlider({
-		Name = "Depth",
-		Min = 0,
-		Max = 24,
-		Default = 8,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
+					end)
+					bedwars["ViewmodelController"]:playAnimation(11)
+					oldc1 = cam.Viewmodel.RightHand.RightWrist.C1
+					cam.Viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx["Value"]), math.rad(rotationy["Value"]), math.rad(rotationz["Value"]))
+                    until not bob.Enabled
+                end)()
+
             end
         end
-	})
-	nobobhorizontal = nobob.CreateSlider({
-		Name = "Horizontal",
-		Min = 0,
-		Max = 24,
-		Default = 8,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
+    })
+  
+    nobobdepth = bob.CreateSlider({
+        Name = "nobobdepth",
+        Min = 0,
+        Max = 100,
+        Default = 14,
+        Round = 1,
+        Function = function(value) 
+            if bob.Enabled then 
+                bob.Toggle()
+                bob.Toggle()
             end
-		end
-	})
-	nobobvertical= nobob.CreateSlider({
-		Name = "Vertical",
-		Min = 0,
-		Max = 24,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
-            end
-		end
-	})
-	rotationx = nobob.CreateSlider({
-		Name = "RotX",
-		Min = 0,
-		Max = 360,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
-            end
-		end
-	})
-	rotationy = nobob.CreateSlider({
-		Name = "RotY",
-		Min = 0,
-		Max = 360,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
-            end
-		end
-	})
-	rotationz = nobob.CreateSlider({
-		Name = "RotZ",
-		Min = 0,
-		Max = 360,
-		Function = function(value) 
-            if nobob.Enabled then 
-                nobob.Toggle()
-                nobob.Toggle()
-            end
-		end
-	})
+        end
+    })
 end
+
+
 
    
    
