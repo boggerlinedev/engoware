@@ -16,7 +16,53 @@ local cam = game.Workspace.Camera
 local origC0 = game.ReplicatedStorage.Assets.Viewmodel.RightHand.RightWrist.C0
 local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
 local Client = require(game:GetService("ReplicatedStorage").TS.remotes).default.Client
-local TweenService = game:GetService("TweenService")
+local TweenService = game:GetService("TweenService") 
+local char = lplr.Character
+ 
+
+
+  local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
+  do
+      function RunLoops:BindToRenderStep(name, num, func)
+          if RunLoops.RenderStepTable[name] == nil then
+              RunLoops.RenderStepTable[name] = game:GetService("RunService").RenderStepped:Connect(func)
+          end
+      end
+  
+      function RunLoops:UnbindFromRenderStep(name)
+          if RunLoops.RenderStepTable[name] then
+              RunLoops.RenderStepTable[name]:Disconnect()
+              RunLoops.RenderStepTable[name] = nil
+          end
+      end
+  
+      function RunLoops:BindToStepped(name, num, func)
+          if RunLoops.StepTable[name] == nil then
+              RunLoops.StepTable[name] = game:GetService("RunService").Stepped:Connect(func)
+          end
+      end
+  
+      function RunLoops:UnbindFromStepped(name)
+          if RunLoops.StepTable[name] then
+              RunLoops.StepTable[name]:Disconnect()
+              RunLoops.StepTable[name] = nil
+          end
+      end
+  
+      function RunLoops:BindToHeartbeat(name, num, func)
+          if RunLoops.HeartTable[name] == nil then
+              RunLoops.HeartTable[name] = game:GetService("RunService").Heartbeat:Connect(func)
+          end
+      end
+  
+      function RunLoops:UnbindFromHeartbeat(name)
+          if RunLoops.HeartTable[name] then
+              RunLoops.HeartTable[name]:Disconnect()
+              RunLoops.HeartTable[name] = nil
+          end
+      end
+  end
+
 
 
 
@@ -354,7 +400,7 @@ do
 
  
     local vv = {}; vv = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
-        Name = "No KB",
+        Name = "No Knockback",
         Function = function(callback) 
             if callback then 
                             
@@ -1127,3 +1173,57 @@ end
 
    
    
+
+
+do 
+
+    local heightval = 1
+    local safeornot = 1
+
+ 
+    local inf = {}; inf = GuiLibrary.Objects.movementWindow.API.CreateOptionsButton({
+        Name = "Infinite Fly",
+        Function = function(callback) 
+            if callback then 
+                safeornot = math.random(1, 7)
+                local origy = lplr.Character.HumanoidRootPart.Position.y
+                part = Instance.new("Part", workspace)
+                part.Size = Vector3.new(1,1,1)
+                part.Transparency = 1
+                part.Anchored = true
+                part.CanCollide = false
+                cam.CameraSubject = part
+                RunLoops:BindToHeartbeat("FunnyFlyPart", 1, function()
+                    local pos = lplr.Character.HumanoidRootPart.Position
+                    part.Position = Vector3.new(pos.x, origy, pos.z)
+                end)
+                local cf = lplr.Character.HumanoidRootPart.CFrame
+                lplr.Character.HumanoidRootPart.CFrame = CFrame.new(cf.x, 300000, cf.z)
+                if lplr.Character.HumanoidRootPart.Position.X < 50000 then 
+                    lplr.Character.HumanoidRootPart.CFrame *= CFrame.new(0, 100000, 0)
+                end
+               
+            else
+  heightval = 0
+                task.wait(0.1)
+                RunLoops:UnbindFromHeartbeat("FunnyFlyPart")
+                local pos = lplr.Character.HumanoidRootPart.Position
+                local rcparams = RaycastParams.new()
+                rcparams.FilterType = Enum.RaycastFilterType.Whitelist
+                rcparams.FilterDescendantsInstances = {workspace.Map}
+                rc = workspace:Raycast(Vector3.new(pos.x, 300, pos.z), Vector3.new(0,-1000,0), rcparams)
+                if rc and rc.Position then
+                    lplr.Character.HumanoidRootPart.CFrame = CFrame.new(rc.Position) * CFrame.new(0,3,0)
+                end
+                cam.CameraSubject = lplr.Character
+                part:Destroy()
+                RunLoops:BindToHeartbeat("FunnyFlyVeloEnd", 1, function()
+                    lplr.Character.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
+                    lplr.Character.HumanoidRootPart.CFrame *= CFrame.new(rc.Position) * CFrame.new(0,3,0)
+                end)
+                RunLoops:UnbindFromHeartbeat("FunnyFlyVeloEnd")
+            end
+        end
+    })
+
+end
