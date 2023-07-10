@@ -1085,7 +1085,7 @@ do
     local oldc1
 	local oldfunc
     local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
-        Name = "No bobing",
+        Name = "No Bobing",
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
@@ -1114,7 +1114,7 @@ repeat wait()
         Max = 100,
         Default = 14,
         Round = 1,
-        Function = function(value) 
+        Function = function(val) 
             if bob.Enabled then 
                 lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(val / 10))
             
