@@ -1084,11 +1084,11 @@ do
 	local rotationz = {Value = 0}
     	local oldc1
     local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
-        Name = "No bobing",
+        Name = "No Bobing",
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
-repeat wait(2222222)
+repeat wait(0.30)
 
 			lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(nobobdepth["Value"] / 10))
 					lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (nobobhorizontal["Value"] / 10))
