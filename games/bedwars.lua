@@ -1115,7 +1115,8 @@ repeat wait(0.30)
         Round = 1,
         Function = function(value) 
             if bob.Enabled then 
-                lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(val / 10))
+               bob.Toggle()
+                bob.Toggle()
             end
         end
     })
