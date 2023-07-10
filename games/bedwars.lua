@@ -1082,9 +1082,9 @@ do
 	local rotationx = {Value = 0}
 	local rotationy = {Value = 0}
 	local rotationz = {Value = 0}
-    
+    	local oldc1
     local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
-        Name = "No Bobing",
+        Name = "No bobing",
         Function = function(callback) 
             if callback then 
                 coroutine.wrap(function() 
