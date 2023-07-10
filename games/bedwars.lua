@@ -1114,9 +1114,9 @@ repeat wait()
         Max = 100,
         Default = 14,
         Round = 1,
-        Function = function(val) 
+        Function = function(value) 
             if bob.Enabled then 
-                lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(val / 10))
+                lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(value / 10))
             
             end
         end
