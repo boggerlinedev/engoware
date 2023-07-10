@@ -1250,7 +1250,7 @@ do
 	local rotationy = {Value = 0}
 	local rotationz = {Value = 0}
     
-    local bob = {}; velocity = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+    local bob = {}; bob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
         Name = "No Bobing",
         Function = function(callback) 
             if callback then 
