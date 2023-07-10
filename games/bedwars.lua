@@ -1083,8 +1083,8 @@ do
 	local rotationz = {Value = 0}
 	local oldc1
 	local oldfunc
-	local nobob = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOptionsButton({
-		Name = "NoBob",
+	local nobob = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+		Name = "No Bobing",
 		Function = function(callback) 
 			local viewmodel = gameCamera:FindFirstChild("Viewmodel")
 			if viewmodel then
@@ -1110,70 +1110,74 @@ do
 					viewmodel.RightHand.RightWrist.C1 = oldc1
 				end
 			end
-		end,
-		HoverText = "Removes the ugly bobbing when you move and makes sword farther"
+		end
 	})
 	nobobdepth = nobob.CreateSlider({
 		Name = "Depth",
 		Min = 0,
 		Max = 24,
 		Default = 8,
-		Function = function(val)
-			if nobob.Enabled then
-				lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_DEPTH_OFFSET", -(val / 10))
-			end
-		end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
+        end
 	})
 	nobobhorizontal = nobob.CreateSlider({
 		Name = "Horizontal",
 		Min = 0,
 		Max = 24,
 		Default = 8,
-		Function = function(val)
-			if nobob.Enabled then
-				lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_HORIZONTAL_OFFSET", (val / 10))
-			end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
 		end
 	})
 	nobobvertical= nobob.CreateSlider({
 		Name = "Vertical",
 		Min = 0,
 		Max = 24,
-		Default = -2,
-		Function = function(val)
-			if nobob.Enabled then
-				lplr.PlayerScripts.TS.controllers.global.viewmodel["viewmodel-controller"]:SetAttribute("ConstantManager_VERTICAL_OFFSET", (val / 10))
-			end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
 		end
 	})
 	rotationx = nobob.CreateSlider({
 		Name = "RotX",
 		Min = 0,
 		Max = 360,
-		Function = function(val)
-			if nobob.Enabled then
-				gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
-			end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
 		end
 	})
 	rotationy = nobob.CreateSlider({
 		Name = "RotY",
 		Min = 0,
 		Max = 360,
-		Function = function(val)
-			if nobob.Enabled then
-				gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
-			end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
 		end
 	})
 	rotationz = nobob.CreateSlider({
 		Name = "RotZ",
 		Min = 0,
 		Max = 360,
-		Function = function(val)
-			if nobob.Enabled then
-				gameCamera.Viewmodel.RightHand.RightWrist.C1 = oldc1 * CFrame.Angles(math.rad(rotationx.Value), math.rad(rotationy.Value), math.rad(rotationz.Value))
-			end
+		Function = function(value) 
+            if nobob.Enabled then 
+                nobob.Toggle()
+                nobob.Toggle()
+            end
 		end
 	})
 end
