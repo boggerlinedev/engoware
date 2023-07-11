@@ -1227,3 +1227,38 @@ do
     })
 
 end
+
+
+
+
+do 
+    	local ReachValue = {Value = 14}
+    local bedwars = {
+        ["CombatConstant"] = require(game:GetService("ReplicatedStorage").TS.combat["combat-constant"]).CombatConstant,
+    }
+    local ra = {}; ra = GuiLibrary.Objects.combatWindow.API.CreateOptionsButton({
+        Name = "Range",
+        Function = function(callback) 
+            if callback then 
+                	bedwars.CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = ReachValue.Value + 2
+
+            else
+                bedwars.CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = 14.4
+              
+            end
+        end,
+    })
+
+    ReachValue = ra.CreateSlider({
+        Name = "value",
+        Min = 1,
+        Max = 20,
+        Round = 0,
+        Default = 18,
+        Function = function(value) 
+            if ra.Enabled then
+              bedwars.CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = value + 2
+            end
+        end
+    })
+end
