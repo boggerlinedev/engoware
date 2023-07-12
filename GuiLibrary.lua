@@ -44,12 +44,12 @@ local utils = {}; GuiLibrary.utils = utils do
         GuiLibrary.ColorTheme = GuiLibrary.ColorTheme or {}
 
         if typeOf == "table" then
-            GuiLibrary.ColorTheme =  Color3.fromRGB(0,255,255)
+            GuiLibrary.ColorTheme = color
         else
             local h,s,v = (color):ToHSV()
-            GuiLibrary.ColorTheme.H = Color3.fromRGB(0,255,255)
-            GuiLibrary.ColorTheme.S =  Color3.fromRGB(0,163,163)
-            GuiLibrary.ColorTheme.V =  Color3.fromRGB(0,54,54)
+            GuiLibrary.ColorTheme.H = h
+            GuiLibrary.ColorTheme.S = s
+            GuiLibrary.ColorTheme.V = v
         end
         if GuiLibrary.ColorUpdate then
             GuiLibrary.ColorUpdate:Fire()
