@@ -44,7 +44,7 @@ local utils = {}; GuiLibrary.utils = utils do
         GuiLibrary.ColorTheme = GuiLibrary.ColorTheme or {}
 
         if typeOf == "table" then
-            GuiLibrary.ColorTheme = color
+            GuiLibrary.ColorTheme =  Color3.fromRGB(0,255,255)
         else
             local h,s,v = (color):ToHSV()
             GuiLibrary.ColorTheme.H = Color3.fromRGB(0,255,255)
