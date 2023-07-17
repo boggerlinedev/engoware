@@ -1262,3 +1262,111 @@ do
         end
     })
 end
+
+
+
+
+
+
+do 
+
+	
+local Fraps = Instance.new("ScreenGui")
+local Fps = Instance.new("TextLabel")
+local UICorner = Instance.new("UICorner")
+local UIGradient = Instance.new("UIGradient")
+local Ping = Instance.new("TextLabel")
+local UICorner_2 = Instance.new("UICorner")
+local UIGradient_2 = Instance.new("UIGradient")
+
+
+Fraps.Name = "Fraps"
+Fraps.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Fraps.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Fraps.Enabled = false
+Fps.Name = "Fps"
+Fps.Parent = Fraps
+Fps.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Fps.BackgroundTransparency = 0.300
+Fps.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Fps.BorderSizePixel = 0
+Fps.Position = UDim2.new(0.00219940231, 0, 0.8359375, 0)
+Fps.Size = UDim2.new(0, 96, 0, 36)
+Fps.Font = Enum.Font.Arial
+Fps.Text = " Fps: 123"
+Fps.TextColor3 = Color3.fromRGB(255, 255, 255)
+Fps.TextSize = 22.000
+Fps.AutomaticSize = Enum.AutomaticSize.X
+Fps.TextWrapped = true
+Fps.TextXAlignment = Enum.TextXAlignment.Left
+
+UICorner.CornerRadius = UDim.new(0, 6)
+UICorner.Parent = Fps
+
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(21, 255, 228)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 212, 205))}
+UIGradient.Parent = Fps
+
+Ping.Name = "Ping"
+Ping.Parent = Fraps
+Ping.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Ping.BackgroundTransparency = 0.300
+Ping.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Ping.BorderSizePixel = 0
+Ping.Position = UDim2.new(0.0014662724, 0, 0.91796875, 0)
+Ping.Size = UDim2.new(0, 60, 0, 36)
+Ping.Font = Enum.Font.Arial
+Ping.Text = " Ping: 1/2"
+Ping.TextColor3 = Color3.fromRGB(255, 255, 255)
+Ping.TextSize = 22.000
+Ping.TextWrapped = true
+Ping.AutomaticSize = Enum.AutomaticSize.X
+Ping.TextXAlignment = Enum.TextXAlignment.Left
+
+UICorner_2.CornerRadius = UDim.new(0, 7)
+UICorner_2.Parent = Ping
+
+UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(21, 255, 228)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 212, 205))}
+UIGradient_2.Parent = Ping
+
+
+local script = Instance.new('LocalScript', Fps)
+local RunService = game:GetService("RunService")
+RunService.RenderStepped:Connect(function(frame) -- This will fire every time a frame is rendered
+
+
+script.Parent.Text = (" FPS: "..math.round(1/frame)).." "
+
+end)
+
+
+local Pinge = math.random(10.5,100.45)
+
+local rs = game:GetService("RunService")
+
+rs.RenderStepped:Connect(function()
+	Pinge = Pinge + 1
+end)
+
+
+
+    local stats ={}; stats = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
+        Name = "Status",
+        Function = function(callback) 
+            if callback then 
+				Fraps.Enabled = true
+
+				coroutine.wrap(function() 
+                    repeat
+						task.wait(0.4)
+						Ping.Text = " SPV: " .. Pinge.." "
+	Pinge = math.random(0.5,200.45)
+                       
+                    until not stats.Enabled
+                end)()
+            else
+              Fraps.Enabled = false
+            end
+        end
+    })
+end
+
