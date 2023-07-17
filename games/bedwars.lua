@@ -1281,7 +1281,7 @@ local UIGradient_2 = Instance.new("UIGradient")
 
 
 Fraps.Name = "Fraps"
-Fraps.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Fraps.Parent = game.CoreGui
 Fraps.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Fraps.Enabled = false
 Fps.Name = "Fps"
