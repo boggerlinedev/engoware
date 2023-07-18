@@ -1039,9 +1039,9 @@ do
             {CFrame = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), Time = 0.25}
         },
        ["Zyla"] = {
-             {CFrame = CFrame.new(0.69, -0.7, 0.6) * CFrame.Angles(math.rad(295), math.rad(55), math.rad(290)), Time = 0.2},
-                {CFrame = CFrame.new(0.69, -0.71, 0.6) * CFrame.Angles(math.rad(200), math.rad(60), math.rad(1)), Time = 0.2},
-                {CFrame = CFrame.new(0.69, -0.7, 0.6) * CFrame.Angles(math.rad(295), math.rad(55), math.rad(290)), Time = 0.2}
+             {CFrame = CFrame.new(0.69, -0.7, 0.6) * CFrame.Angles(math.rad(295), math.rad(55), math.rad(290)), Time = 0.1},
+                {CFrame = CFrame.new(0.69, -0.71, 0.6) * CFrame.Angles(math.rad(200), math.rad(60), math.rad(1)), Time = 0.1},
+                {CFrame = CFrame.new(0.69, -0.7, 0.6) * CFrame.Angles(math.rad(295), math.rad(55), math.rad(290)), Time = 0.1}
         },
         ["Self"] = {
             {CFrame = CFrame.new(0, 1, 0) * CFrame.Angles(math.rad(-90), math.rad(90), math.rad(90)),Time = 0.25},
@@ -1069,7 +1069,7 @@ do
     local CurrentAnim = {["Value"] = "Zyla"}
 
     local an = {}; an = GuiLibrary.Objects.renderWindow.API.CreateOptionsButton({
-        Name = "Aura Animation",
+        Name = "Killaura Animation",
         Function = function(callback) 
             if callback then 
              
